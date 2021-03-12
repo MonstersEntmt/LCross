@@ -1,35 +1,34 @@
-# Premake5AppSystem
-A premake5 system that allows apps with dependencies with more dependencies
+# LCross
+Lava Cross Compiler is a cross compiler built to support any major host platform<br>
+Currently they are:
+- Windows
+- Linux (Might not work haven't tested)
+- Macosx (Might not work haven't tested)
+- More to come I guess
 
-# How it works
-With normal premake projects you have a `premake5.lua` file that controls how premake5 operates in that project.
-To make sure that other projects can include another project a fix had to be made.
-That's where this premake5 system comes in.
+And will supports building `pe`, `elf` and `bin` files using `x86`, `x86_64`, `arm32` and `arm64` architectures.<br>
+And supports disabling unneeded formats and architectures, all with just some arguments passed to Premake5.
 
-All you need is the `premake/` folder
-and a `premakeApp.lua` file that creates an app(s) and returns it.
+# Roadmap
+Currently this project is far from done.<br>
+Here's a list of things to come:
+- Assembler "LASM"
+- Linker "LLINK"
+- C Compiler "LCC"
+- C++ Compiler "LCPP"
 
-To create a project you need a `premakeApp.lua` file that creates the app(s) using
-```lua
-local app = APP.GetOrCreateApp("app") -- Creates an app called 'app'
-```
+### Q. How to build for given file formats and architectures
+A. Give Premake5 one of the following arguments to enable specific file formats or architectures.<br>
+Formats (by default all are enabled):
+- `--format-pe`: Makes windows `.exe` files
+- `--format-elf`: Makes elf `.o` files
+- `--format-bin`: Makes binary `.bin` files
 
-To use another project call one of the following functions in the `premakeApp.lua` file
-```lua
-local thirdPartyApp = APP.GetThirdPartyApp("ThirdPartyApp")          -- Loads a project at 'APP.thirdPartyFolder .. "ThirdPartyApp/premakeApp.lua"'
-local thirdPartyLib = APP.GetThirdPartyLibrary("ThirdPartyLib")      -- Loads a project at 'APP.thirdPartyFolder .. "ThirdPartyApp.lua"
-local customPathedApp = APP.GetApp("SomeFolder/CustomPathedApp")     -- Loads a project at '"SomeFolder/CustomPathedApp/premakeApp.lua"'
-local customPathedLib = APP.GetLibrary("SomeFolder/CustomPathedLib") -- Loads a project at '"SomeFolder/CustomPathedLib.lua"'
-```
+Architectures (by default all are enabled):
+- `--arch-x86`: Makes x86 compatible files
+- `--arch-x86_64`: Makes x86_64 compatible files
+- `--arch-arm32`: Makes arm32 compatible files
+- `--arch-arm64`: Makes arm64 compatible files
 
-You can change what 'APP.thirdPartyFolder' is using this function in the `premakeApp.lua` file
-```lua
-APP.SetThirdPartyFolder("ThirdParty")
-```
-Changing project properties can be done using variables in the app object. For help on what can be done visit the Wiki.
-
-### Q. But how do I change premake stuff myself?<br>
-A. Use State object and add that to the app with a filter of your choosing, making the filter = {} will make it work on anything.
-
-### Q. Why does git detect some workspace files were include?<br>
-A. This project does not have all the ignores specified in the `.gitignore` so if any are missing please open an issue and specify all the ignores that are missing.
+### Q. Can I contribute
+A. Yes please :D
