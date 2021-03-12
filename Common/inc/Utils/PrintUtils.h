@@ -42,5 +42,7 @@ namespace PrintUtils {
 	std::ostream& appUsage(std::ostream& ostream);
 	std::ostream& appHelp(std::ostream& ostream);
 	std::ostream& normal(std::ostream& ostream);
+	std::ostream& appVersion(std::ostream& ostream);
 	extern std::ostream& appName(std::ostream& ostream);
+	extern std::ostream& appVersionInfo(std::ostream& ostream);
 }

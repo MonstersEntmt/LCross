@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <iostream>
 
 #define HAS_FLAG(flags, flag) ((flags & flag) == flag)
 #define _HAS_ARCH(arch) HAS_FLAG(_ARCH_, arch)
@@ -46,6 +47,10 @@ struct HostInfo {
 	Platform platform;
 	Arch arch;
 };
+
+std::ostream& operator<<(std::ostream& ostream, const Format& format);
+std::ostream& operator<<(std::ostream& ostream, const Arch& arch);
+std::ostream& operator<<(std::ostream& ostream, const Platform& platform);
 
 HostInfo getHostInfo();
 Arch getDefaultCompileArchForHost();

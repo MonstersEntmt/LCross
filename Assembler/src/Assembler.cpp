@@ -11,6 +11,9 @@ static std::string assemblerOutput;
 
 namespace PrintUtils {
 	std::ostream& appName(std::ostream& ostream) { return ostream << "LASM"; }
+	std::ostream& appVersionInfo(std::ostream& ostream) {
+		return ostream;
+	}
 }
 
 std::string getUsageString(ArgUtils& argUtils) {
@@ -150,23 +153,8 @@ int main(int argc, char** argv) {
 	printHostPlatform();
 	printHostArch();
 
-	std::cout << PrintUtils::appInfo << "Current output format is " << PrintUtils::colorSchemeArg;
-	switch (assemblerFormat) {
-	case Format::PE: std::cout << "pe"; break;
-	case Format::ELF: std::cout << "elf"; break;
-	case Format::BIN: std::cout << "bin"; break;
-	}
-	std::cout << PrintUtils::normal << std::endl;
-
-	std::cout << PrintUtils::appInfo << "Current output arch is " << PrintUtils::colorSchemeArg;
-	switch (assemblerArch) {
-	case Arch::X86: std::cout << "x86"; break;
-	case Arch::X86_64: std::cout << "x86_64"; break;
-	case Arch::ARM32: std::cout << "arm32"; break;
-	case Arch::ARM64: std::cout << "arm64"; break;
-	}
-	std::cout << PrintUtils::normal << std::endl;
-
+	std::cout << PrintUtils::appInfo << "Current output format is " << PrintUtils::colorSchemeArg << assemblerFormat << PrintUtils::normal << std::endl;
+	std::cout << PrintUtils::appInfo << "Current output arch is " << PrintUtils::colorSchemeArg << assemblerArch << PrintUtils::normal << std::endl;
 	std::cout << PrintUtils::appInfo << "Current output filename is " << PrintUtils::colorSchemeArg << "'" << assemblerOutput << "'" << PrintUtils::normal << std::endl;
 
 	if (assemblerLinkInputs && assemblerInputs.size() > 1) {

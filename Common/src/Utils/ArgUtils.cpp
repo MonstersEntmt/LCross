@@ -1,12 +1,13 @@
 #include "Utils/ArgUtils.h"
 #include "Utils/PrintUtils.h"
+#include "Core.h"
 
 #include <iostream>
 
 std::string getFullUsageString(ArgUtils& argUtils, const ArgInfo* argInfo) {
 	std::string usage = getUsageString(argUtils);
 	if (argInfo) {
-		if (argInfo->argName == "-h") {
+		if (argInfo->argName == "-h" || argInfo->argName == "-v") {
 			std::string argSyntax = argInfo->argName;
 			for (size_t i = 0; i < argInfo->argValues.size(); i++) {
 				auto& argValue = argInfo->argValues[i];
@@ -158,14 +159,46 @@ static void handleHelpArg(ArgUtils& argUtils, size_t& usedValueCount, bool& argF
 	exit(EXIT_SUCCESS);
 }
 
+static void handleVersionArg(ArgUtils& argUtils, size_t& usedValueCount, bool& argFailed, std::string arg, std::vector<std::string> values) {
+	HostInfo hostInfo = getHostInfo();
+	std::cout << PrintUtils::colorSchemeInfo << PrintUtils::appName << " version " << PrintUtils::colorSchemeArg << PrintUtils::appVersion << PrintUtils::colorSchemeInfo << std::endl << "Built for " << PrintUtils::colorSchemeArg << hostInfo.platform << " " << hostInfo.arch << PrintUtils::colorSchemeInfo << std::endl << "License " << PrintUtils::colorSchemeArg << "GPLv3+" << PrintUtils::colorSchemeInfo << ": GNU GPL Version 3 or later " << PrintUtils::colorSchemeArg << "<http://gnu.org/licenses/gpl.html>" << PrintUtils::colorSchemeInfo << std::endl << "This is free software: You are free to change and redistribute it." << std::endl << "There is " << PrintUtils::colorSchemeArg << "NO WARRANTY" << PrintUtils::colorSchemeInfo << ", to the extent permitted by law." << std::endl << "This build of " << PrintUtils::appName << " targets these formats:" << std::endl;
+#if _TARGETS_PE_
+	std::cout << PrintUtils::colorSchemeArg << "    'pe'" << PrintUtils::colorSchemeInfo << std::endl;
+#endif
+#if _TARGETS_ELF_
+	std::cout << PrintUtils::colorSchemeArg << "    'elf'" << PrintUtils::colorSchemeInfo << std::endl;
+#endif
+#if _TARGETS_BIN_
+	std::cout << PrintUtils::colorSchemeArg << "    'bin'" << PrintUtils::colorSchemeInfo << std::endl;
+#endif
+	std::cout << "And these architectures:" << std::endl;
+#if _TARGETS_X86_
+	std::cout << PrintUtils::colorSchemeArg << "    'x86'" << PrintUtils::colorSchemeInfo << std::endl;
+#endif
+#if _TARGETS_X86_64_
+	std::cout << PrintUtils::colorSchemeArg << "    'x86_64'" << PrintUtils::colorSchemeInfo << std::endl;
+#endif
+#if _TARGETS_ARM32_
+	std::cout << PrintUtils::colorSchemeArg << "    'arm32'" << PrintUtils::colorSchemeInfo << std::endl;
+#endif
+#if _TARGETS_ARM64_
+	std::cout << PrintUtils::colorSchemeArg << "    'arm64'" << PrintUtils::colorSchemeInfo << std::endl;
+#endif
+	std::cout << PrintUtils::normal << PrintUtils::appVersionInfo;
+	PrintUtils::restoreAnsi();
+	exit(EXIT_SUCCESS);
+}
+
 ArgUtils::ArgUtils(int argc, char** argv) {
 	addArgInfo("-h", "Show this help information or if given a flag this will show info about that flag", "Flag should not contain '-' e.g. for flag '-f' give 'f' as value");
 	addArgValue("-h", "flag", "O");
+	addArgInfo("-v", "Show the version of this app");
+	this->argHandlers.insert({ "-h", &handleHelpArg });
+	this->argHandlers.insert({ "-v", &handleVersionArg });
 	this->arguments.clear();
 	this->arguments.resize(argc);
 	for (int i = 0; i < argc; i++)
 		this->arguments[i] = argv[i];
-	this->argHandlers.insert({ "-h", &handleHelpArg });
 }
 
 void ArgUtils::setRequiresDefaultArgument(bool require) { this->requiresDefaultArguments = require; }

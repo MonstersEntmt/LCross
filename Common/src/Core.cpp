@@ -6,6 +6,37 @@ HostInfo getHostInfo() {
 	return { (Platform) _HOST_PLATFORM_, (Arch) _HOST_ARCH_ };
 }
 
+std::ostream& operator<<(std::ostream& ostream, const Format& format) {
+	switch (format) {
+	case Format::DEFAULT: return ostream << "Default";
+	case Format::PE: return ostream << "PE";
+	case Format::ELF: return ostream << "ELF";
+	case Format::BIN: return ostream << "BIN";
+	default: return ostream << "Unknown";
+	}
+}
+
+std::ostream& operator<<(std::ostream& ostream, const Arch& arch) {
+	switch (arch) {
+	case Arch::DEFAULT: return ostream << "Default";
+	case Arch::X86: return ostream << "X86";
+	case Arch::X86_64: return ostream << "X86_64";
+	case Arch::ARM32: return ostream << "ARM32";
+	case Arch::ARM64: return ostream << "ARM64";
+	default: return ostream << "Unknown";
+	}
+}
+
+std::ostream& operator<<(std::ostream& ostream, const Platform& platform) {
+	switch (platform) {
+	case Platform::DEFAULT: return ostream << "Default";
+	case Platform::WINDOWS: return ostream << "Windows";
+	case Platform::LINUX: return ostream << "Linux";
+	case Platform::MACOSX: return ostream << "Macosx";
+	default: return ostream << "Unknown";
+	}
+}
+
 Arch getDefaultCompileArchForHost() {
 #if _HOST_ARCH_ == _X86
 #if _TARGETS_X86_
@@ -79,27 +110,9 @@ Format getDefaultCompileFormatForHost() {
 }
 
 void printHostPlatform() {
-	std::cout << PrintUtils::appInfo << "Host platform is " << PrintUtils::colorSchemeNoteLabel;
-#if _HOST_PLATFORM_ == _WINDOWS
-	std::cout << "Windows";
-#elif _HOST_PLATFORM_ == _LINUX
-	std::cout << "Linux";
-#elif _HOST_PLATFORM_ == _MACOSX
-	std::cout << "Macosx";
-#endif
-	std::cout << PrintUtils::normal << std::endl;
+	std::cout << PrintUtils::appInfo << "Host platform is " << PrintUtils::colorSchemeNoteLabel << (Platform) _HOST_PLATFORM_ << PrintUtils::normal << std::endl;
 }
 
 void printHostArch() {
-	std::cout << PrintUtils::appInfo << "Host platform is " << PrintUtils::colorSchemeNoteLabel;
-#if _HOST_ARCH_ == _X86
-	std::cout << "x86";
-#elif _HOST_ARCH_ == _X86_64
-	std::cout << "x86_64";
-#elif _HOST_ARCH_ == _ARM32
-	std::cout << "arm32";
-#elif _HOST_ARCH_ == _ARM64
-	std::cout << "arm64";
-#endif
-	std::cout << PrintUtils::normal << std::endl;
+	std::cout << PrintUtils::appInfo << "Host platform is " << PrintUtils::colorSchemeNoteLabel << (Arch) _HOST_ARCH_ << PrintUtils::normal << std::endl;
 }

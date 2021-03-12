@@ -45,21 +45,21 @@ if _OPTIONS["arch-x86"] or _OPTIONS["arch-x86_64"] or _OPTIONS["arch-arm32"] or 
 	end
 	if _OPTIONS["arch-x86_64"] then
 		if (addedArch) then
-			MACRO_ARCH_ = MACRO_ARCH_ .. "|"
+			MACRO_ARCH_ = MACRO_ARCH_ .. "+"
 		end
 		MACRO_ARCH_ = MACRO_ARCH_ .. "_X86_64"
 		addedArch = true
 	end
 	if _OPTIONS["arch-arm32"] then
 		if (addedArch) then
-			MACRO_ARCH_ = MACRO_ARCH_ .. "|"
+			MACRO_ARCH_ = MACRO_ARCH_ .. "+"
 		end
 		MACRO_ARCH_ = MACRO_ARCH_ .. "_ARM32"
 		addedArch = true
 	end
 	if _OPTIONS["arch-arm64"] then
 		if (addedArch) then
-			MACRO_ARCH_ = MACRO_ARCH_ .. "|"
+			MACRO_ARCH_ = MACRO_ARCH_ .. "+"
 		end
 		MACRO_ARCH_ = MACRO_ARCH_ .. "_ARM64"
 		addedArch = true
@@ -75,14 +75,14 @@ if _OPTIONS["format-pe"] or _OPTIONS["format-elf"] or _OPTIONS["format-bin"] the
 	end
 	if _OPTIONS["format-elf"] then
 		if (addedFormat) then
-			MACRO_FORMAT_ = MACRO_FORMAT_ .. "|"
+			MACRO_FORMAT_ = MACRO_FORMAT_ .. "+"
 		end
 		MACRO_FORMAT_ = MACRO_FORMAT_ .. "_ELF"
 		addedFormat = true
 	end
 	if _OPTIONS["format-bin"] then
 		if (addedFormat) then
-			MACRO_FORMAT_ = MACRO_FORMAT_ .. "|"
+			MACRO_FORMAT_ = MACRO_FORMAT_ .. "+"
 		end
 		MACRO_FORMAT_ = MACRO_FORMAT_ .. "_BIN"
 		addedFormat = true

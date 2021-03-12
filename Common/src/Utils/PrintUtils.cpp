@@ -72,4 +72,5 @@ namespace PrintUtils {
 	std::ostream& appUsage(std::ostream& ostream) { return ostream << colorSchemeUsage << appName << " Usage: "; }
 	std::ostream& appHelp(std::ostream& ostream) { return ostream << colorSchemeHelp << appName << " Help: "; }
 	std::ostream& normal(std::ostream& ostream) { return ostream << ansiReset(); }
+	std::ostream& appVersion(std::ostream& ostream) { return ostream << "0.1.0"; }
 }
