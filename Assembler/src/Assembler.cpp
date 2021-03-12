@@ -150,21 +150,25 @@ int main(int argc, char** argv) {
 		}
 	}
 
-	printHostPlatform();
-	printHostArch();
+	if (argUtils.isVerbose()) {
+		printHostPlatform();
+		printHostArch();
 
-	std::cout << PrintUtils::appInfo << "Current output format is " << PrintUtils::colorSchemeArg << assemblerFormat << PrintUtils::normal << std::endl;
-	std::cout << PrintUtils::appInfo << "Current output arch is " << PrintUtils::colorSchemeArg << assemblerArch << PrintUtils::normal << std::endl;
-	std::cout << PrintUtils::appInfo << "Current output filename is " << PrintUtils::colorSchemeArg << "'" << assemblerOutput << "'" << PrintUtils::normal << std::endl;
+		std::cout << PrintUtils::appInfo << "Current output format is " << PrintUtils::colorSchemeArg << assemblerFormat << PrintUtils::normal << std::endl;
+		std::cout << PrintUtils::appInfo << "Current output arch is " << PrintUtils::colorSchemeArg << assemblerArch << PrintUtils::normal << std::endl;
+		std::cout << PrintUtils::appInfo << "Current output filename is " << PrintUtils::colorSchemeArg << "'" << assemblerOutput << "'" << PrintUtils::normal << std::endl;
 
-	if (assemblerLinkInputs && assemblerInputs.size() > 1) {
-		std::cout << PrintUtils::appInfo << "Current input filenames are:" << PrintUtils::colorSchemeArg;
-		for (size_t i = 0; i < assemblerInputs.size(); i++)
-			std::cout << std::endl << "    '" << assemblerInputs[i] << "'";
-		std::cout << PrintUtils::normal;
-	} else {
-		std::cout << PrintUtils::appInfo << "Current input filename is " << PrintUtils::colorSchemeArg << "'" << assemblerInputs[0] << "'" << PrintUtils::normal << std::endl;
+		if (assemblerLinkInputs && assemblerInputs.size() > 1) {
+			std::cout << PrintUtils::appInfo << "Current input filenames are:" << PrintUtils::colorSchemeArg;
+			for (size_t i = 0; i < assemblerInputs.size(); i++)
+				std::cout << std::endl << "    '" << assemblerInputs[i] << "'";
+			std::cout << PrintUtils::normal;
+		} else {
+			std::cout << PrintUtils::appInfo << "Current input filename is " << PrintUtils::colorSchemeArg << "'" << assemblerInputs[0] << "'" << PrintUtils::normal << std::endl;
+		}
 	}
+
+
 
 	PrintUtils::restoreAnsi();
 	return EXIT_SUCCESS;

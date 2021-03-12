@@ -189,12 +189,18 @@ static void handleVersionArg(ArgUtils& argUtils, size_t& usedValueCount, bool& a
 	exit(EXIT_SUCCESS);
 }
 
+static void handleVerboseArg(ArgUtils& argUtils, size_t& usedValueCount, bool& argFailed, std::string arg, std::vector<std::string> values) {
+	argUtils.setVerbose();
+}
+
 ArgUtils::ArgUtils(int argc, char** argv) {
 	addArgInfo("-h", "Show this help information or if given a flag this will show info about that flag", "Flag should not contain '-' e.g. for flag '-f' give 'f' as value");
 	addArgValue("-h", "flag", "O");
 	addArgInfo("-v", "Show the version of this app");
+	addArgInfo("-verbose", "Print debug information");
 	this->argHandlers.insert({ "-h", &handleHelpArg });
 	this->argHandlers.insert({ "-v", &handleVersionArg });
+	this->argHandlers.insert({ "-verbose", &handleVerboseArg });
 	this->arguments.clear();
 	this->arguments.resize(argc);
 	for (int i = 0; i < argc; i++)
@@ -321,6 +327,8 @@ void ArgUtils::handle() {
 						size_t indexOffset = 0;
 						handler->second(*this, indexOffset, this->argFailed, arg, argValues);
 						index += indexOffset;
+					} else {
+						std::cout << PrintUtils::appWarn << "Arg " << PrintUtils::colorSchemeArg << "'" << arg << "'" << PrintUtils::colorSchemeWarn << " is not a valid arg for this app!" << PrintUtils::normal << std::endl;
 					}
 				}
 			}
@@ -354,3 +362,5 @@ void ArgUtils::handle() {
 std::string ArgUtils::getCommand() const { return this->arguments[0]; }
 const std::vector<std::string>& ArgUtils::getArguments() const { return this->arguments; }
 bool ArgUtils::hasFailed() const { return this->argFailed; }
+void ArgUtils::setVerbose() { this->verbose = true; }
+bool ArgUtils::isVerbose() const { return this->verbose; }

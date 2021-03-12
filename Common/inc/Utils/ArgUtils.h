@@ -41,6 +41,8 @@ public:
 	std::string getCommand() const;
 	const std::vector<std::string>& getArguments() const;
 	bool hasFailed() const;
+	void setVerbose();
+	bool isVerbose() const;
 
 	void handle();
 
@@ -50,4 +52,5 @@ private:
 	std::unordered_map<std::string, ArgHandler> argHandlers;
 	bool requiresDefaultArguments = true;
 	bool argFailed = false;
+	bool verbose = false;
 };
