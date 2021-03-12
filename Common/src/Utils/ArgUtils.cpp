@@ -4,6 +4,31 @@
 
 #include <iostream>
 
+std::string getUsageString(ArgUtils& argUtils) {
+	if (argUtils.getLinks()) {
+		if (argUtils.getHasNoLinkArg()) {
+			auto& arguments = argUtils.getArguments();
+			auto helpArgument = std::find(arguments.begin(), arguments.end(), "-h");
+			if (helpArgument != arguments.end()) {
+				helpArgument++;
+				if (helpArgument != arguments.end() && (*helpArgument) == "no_link")
+					return "<input filename>";
+				else
+					return "<input filenames ...>";
+			} else {
+				if (argUtils.getNoLink())
+					return "-no_link <input filename>";
+				else
+					return "<input filenames ...>";
+			}
+		} else {
+			return "<input filenames ...>";
+		}
+	} else {
+		return "<input filename>";
+	}
+}
+
 std::string getFullUsageString(ArgUtils& argUtils, const ArgInfo* argInfo) {
 	std::string usage = getUsageString(argUtils);
 	if (argInfo) {
@@ -193,14 +218,71 @@ static void handleVerboseArg(ArgUtils& argUtils, size_t& usedValueCount, bool& a
 	argUtils.setVerbose();
 }
 
+static void handleDefaultArg(ArgUtils& argUtils, size_t& usedValueCount, bool& argFailed, std::string arg, std::vector<std::string> values) {
+	if (argUtils.getLinks() && !argUtils.getNoLink())
+		argUtils.addInputName(arg);
+	else if (argUtils.getInputNames().size() < 1)
+		argUtils.addInputName(arg);
+}
+
+static void handleArchArg(ArgUtils& argUtils, size_t& usedValueCount, bool& argFailed, std::string arg, std::vector<std::string> values) {
+	std::string argValue = values[0];
+	if (argValue == "default") argUtils.setOutputArch(Arch::DEFAULT);
+#if _TARGETS_X86_
+	else if (argValue == "x86") argUtils.setOutputArch(Arch::X86_64);
+#endif
+#if _TARGETS_X86_64_
+	else if (argValue == "x86_64") argUtils.setOutputArch(Arch::X86_64);
+#endif
+#if _TARGETS_ARM32_
+	else if (argValue == "arm32") argUtils.setOutputArch(Arch::ARM32);
+#endif
+#if _TARGETS_ARM64_
+	else if (argValue == "arm64") argUtils.setOutputArch(Arch::ARM64);
+#endif
+}
+
+static void handleOutputArg(ArgUtils& argUtils, size_t& usedValueCount, bool& argFailed, std::string arg, std::vector<std::string> values) {
+	argUtils.setOutputName(values[0]);
+	usedValueCount = 1;
+}
+
+static void handleNoLinkArg(ArgUtils& argUtils, size_t& usedValueCount, bool& argFailed, std::string arg, std::vector<std::string> values) {
+	argUtils.setNoLink();
+}
+
 ArgUtils::ArgUtils(int argc, char** argv) {
 	addArgInfo("-h", "Show this help information or if given a flag this will show info about that flag", "Flag should not contain '-' e.g. for flag '-f' give 'f' as value");
 	addArgValue("-h", "flag", "O");
 	addArgInfo("-v", "Show the version of this app");
 	addArgInfo("-verbose", "Print debug information");
+	addArgInfo("-a", "Select output architecture");
+	addArgValue("-a", "architecture", "R");
+	addArgValue("-a", "architecture", "default");
+#if _TARGETS_X86_
+	addArgValue("-a", "architecture", "x86");
+#endif
+#if _TARGETS_X86_64_
+	addArgValue("-a", "architecture", "x86_64");
+#endif
+#if _TARGETS_ARM32_
+	addArgValue("-a", "architecture", "arm32");
+#endif
+#if _TARGETS_ARM64_
+	addArgValue("-a", "architecture", "arm64");
+#endif
+	addArgInfo("-o", "Set output filename");
+	addArgValue("-o", "output filename", "R");
+	if (this->links && this->hasNoLinkArg) {
+		addArgInfo("-no_link", "Do not link the file inputs", "This makes '<input filenames ...>' syntax wrong as it uses '<input filename>' syntax instead");
+		this->argHandlers.insert({ "-no_link", &handleNoLinkArg });
+	}
+	this->argHandlers.insert({ "", &handleDefaultArg });
 	this->argHandlers.insert({ "-h", &handleHelpArg });
 	this->argHandlers.insert({ "-v", &handleVersionArg });
 	this->argHandlers.insert({ "-verbose", &handleVerboseArg });
+	this->argHandlers.insert({ "-a", &handleArchArg });
+	this->argHandlers.insert({ "-o", &handleOutputArg });
 	this->arguments.clear();
 	this->arguments.resize(argc);
 	for (int i = 0; i < argc; i++)
@@ -353,9 +435,27 @@ void ArgUtils::handle() {
 	}
 
 	if (!this->argFailed && !hasDefaultArguments) {
-		std::cout << PrintUtils::appError << "Missing default argument!" << PrintUtils::normal << std::endl;
+		std::cout << PrintUtils::appError << "Missing input filename(s)!" << PrintUtils::normal << std::endl;
 		std::cout << PrintUtils::appUsage << "'\"" << getCommand() << "\" " << getFullUsageString(*this, nullptr) << "'" << PrintUtils::normal << std::endl;
 		this->argFailed = true;
+		return;
+	}
+
+	if (this->outputArch == Arch::DEFAULT)
+		this->outputArch = getDefaultCompileArchForHost();
+}
+
+void ArgUtils::handleArgs() {
+	if (this->outputName.empty()) {
+		if (this->links && this->inputNames.size() > 1) {
+			std::cout << PrintUtils::appError << "Missing output filename!" << PrintUtils::normal << std::endl;
+			std::cout << PrintUtils::appUsage << "'\"" << getCommand() << "\" " << getFullUsageString(*this, nullptr) << "'" << PrintUtils::normal << std::endl;
+			this->argFailed = true;
+			return;
+		}
+
+		this->outputName = this->inputNames[0];
+		handleOutputName(*this, this->outputName);
 	}
 }
 
@@ -364,3 +464,15 @@ const std::vector<std::string>& ArgUtils::getArguments() const { return this->ar
 bool ArgUtils::hasFailed() const { return this->argFailed; }
 void ArgUtils::setVerbose() { this->verbose = true; }
 bool ArgUtils::isVerbose() const { return this->verbose; }
+void ArgUtils::setLinks(bool links) { this->links = links; }
+bool ArgUtils::getLinks() const { return this->links; }
+void ArgUtils::setHasNoLinkArg(bool hasNoLinkArg) { this->hasNoLinkArg = hasNoLinkArg; }
+bool ArgUtils::getHasNoLinkArg() const { return this->hasNoLinkArg; }
+void ArgUtils::setNoLink() { this->noLink = true; }
+bool ArgUtils::getNoLink() const { return this->noLink; }
+void ArgUtils::addInputName(const std::string& inputName) { this->inputNames.push_back(inputName); }
+const std::vector<std::string>& ArgUtils::getInputNames() const { return this->inputNames; }
+void ArgUtils::setOutputName(const std::string& outputName) { this->outputName = outputName; }
+const std::string& ArgUtils::getOutputName() const { return this->outputName; }
+void ArgUtils::setOutputArch(Arch outputArch) { this->outputArch = outputArch; }
+Arch ArgUtils::getOutputArch() const { return this->outputArch; }

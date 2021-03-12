@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core.h"
+
 #include <string>
 #include <optional>
 #include <vector>
@@ -9,7 +11,8 @@
 class ArgUtils;
 struct ArgInfo;
 
-extern std::string getUsageString(ArgUtils& argUtils);
+extern void handleOutputName(ArgUtils& argUtils, std::string& outputName);
+std::string getUsageString(ArgUtils& argUtils);
 std::string getFullUsageString(ArgUtils& argUtils, const ArgInfo* argInfo);
 
 struct ArgInfo {
@@ -43,8 +46,21 @@ public:
 	bool hasFailed() const;
 	void setVerbose();
 	bool isVerbose() const;
+	void setLinks(bool links);
+	bool getLinks() const;
+	void setHasNoLinkArg(bool hasNoLinkArg);
+	bool getHasNoLinkArg() const;
+	void setNoLink();
+	bool getNoLink() const;
+	void addInputName(const std::string& inputName);
+	const std::vector<std::string>& getInputNames() const;
+	void setOutputName(const std::string& outputName);
+	const std::string& getOutputName() const;
+	void setOutputArch(Arch outputArch);
+	Arch getOutputArch() const;
 
 	void handle();
+	void handleArgs();
 
 private:
 	std::vector<std::string> arguments;
@@ -53,4 +69,11 @@ private:
 	bool requiresDefaultArguments = true;
 	bool argFailed = false;
 	bool verbose = false;
+	bool links = true;
+	bool hasNoLinkArg = true;
+	bool noLink = false;
+
+	std::vector<std::string> inputNames;
+	std::string outputName;
+	Arch outputArch = Arch::DEFAULT;
 };

@@ -33,6 +33,31 @@ newoption({
 	description = "Build for bin file format"
 })
 
+newoption({
+	trigger = "assembler-no-link",
+	description = "Forces the Assembler to not include a built in linking"
+})
+
+newoption({
+	trigger = "c-compiler-no-link",
+	description = "Forces the C Compiler to not include a built in linking"
+})
+
+newoption({
+	trigger = "c-compiler-no-assemble",
+	description = "Forces the C Compiler to not include a built in assembler"
+})
+
+newoption({
+	trigger = "cpp-compiler-no-link",
+	description = "Forces the C++ Compiler to not include a built in linking"
+})
+
+newoption({
+	trigger = "cpp-compiler-no-assemble",
+	description = "Forces the C++ Compiler to not include a built in assembler"
+})
+
 local MACRO_ARCH_ = "_ALL"
 local MACRO_FORMAT_ = "_ALL"
 
@@ -117,9 +142,97 @@ common.AddGlobalState("architecture:arm64", function()
 	defines({ "_HOST_ARCH_=_ARM64" })
 end)
 
+local linker = APP.GetOrCreateApp("Linker")
+linker.kind = "ConsoleApp"
+linker.AddDependency(common)
+linker.AddState({}, function()
+	targetname("llink")
+end)
+
 local assembler = APP.GetOrCreateApp("Assembler")
 assembler.kind = "ConsoleApp"
-
 assembler.AddDependency(common)
+assembler.AddState({}, function()
+	if _OPTIONS["assembler-no-link"] then
+		defines({ "_NO_LINKER_" })
+	else
+		sysincludedirs({ linker.currentPath .. linker.includeDir })
+		files({
+			linker.currentPath .. linker.includeDir .. "Linker/**.h",
+			linker.currentPath .. linker.includeDir .. "Linker/**.hpp",
+			linker.currentPath .. linker.sourceDir .. "Linker/**.h",
+			linker.currentPath .. linker.sourceDir .. "Linker/**.hpp",
+			linker.currentPath .. linker.sourceDir .. "Linker/**.c",
+			linker.currentPath .. linker.sourceDir .. "Linker/**.cpp"
+		})
+	end
+	targetname("lasm")
+end)
 
-return { assembler, common }
+local cCompiler = APP.GetOrCreateApp("CCompiler")
+cCompiler.kind = "ConsoleApp"
+cCompiler.AddDependency(common)
+cCompiler.AddState({}, function()
+	if _OPTIONS["c-compiler-no-link"] then
+		defines({ "_NO_LINKER_" })
+	else
+		sysincludedirs({ linker.currentPath .. linker.includeDir })
+		files({
+			linker.currentPath .. linker.includeDir .. "Linker/**.h",
+			linker.currentPath .. linker.includeDir .. "Linker/**.hpp",
+			linker.currentPath .. linker.sourceDir .. "Linker/**.h",
+			linker.currentPath .. linker.sourceDir .. "Linker/**.hpp",
+			linker.currentPath .. linker.sourceDir .. "Linker/**.c",
+			linker.currentPath .. linker.sourceDir .. "Linker/**.cpp"
+		})
+	end
+	if _OPTIONS["c-compiler-no-assemble"] then
+		defines({ "_NO_ASSEMBLER_" })
+	else
+		sysincludedirs({ assembler.currentPath .. assembler.includeDir })
+		files({
+			assembler.currentPath .. assembler.includeDir .. "Assembler/**.h",
+			assembler.currentPath .. assembler.includeDir .. "Assembler/**.hpp",
+			assembler.currentPath .. assembler.sourceDir .. "Assembler/**.h",
+			assembler.currentPath .. assembler.sourceDir .. "Assembler/**.hpp",
+			assembler.currentPath .. assembler.sourceDir .. "Assembler/**.c",
+			assembler.currentPath .. assembler.sourceDir .. "Assembler/**.cpp"
+		})
+	end
+	targetname("lcc")
+end)
+
+local cppCompiler = APP.GetOrCreateApp("CppCompiler")
+cppCompiler.kind = "ConsoleApp"
+cppCompiler.AddDependency(common)
+cppCompiler.AddState({}, function()
+	if _OPTIONS["cpp-compiler-no-link"] then
+		defines({ "_NO_LINKER_" })
+	else
+		sysincludedirs({ linker.currentPath .. linker.includeDir })
+		files({
+			linker.currentPath .. linker.includeDir .. "Linker/**.h",
+			linker.currentPath .. linker.includeDir .. "Linker/**.hpp",
+			linker.currentPath .. linker.sourceDir .. "Linker/**.h",
+			linker.currentPath .. linker.sourceDir .. "Linker/**.hpp",
+			linker.currentPath .. linker.sourceDir .. "Linker/**.c",
+			linker.currentPath .. linker.sourceDir .. "Linker/**.cpp"
+		})
+	end
+	if _OPTIONS["cpp-compiler-no-assemble"] then
+		defines({ "_NO_ASSEMBLER_" })
+	else
+		sysincludedirs({ assembler.currentPath .. assembler.includeDir })
+		files({
+			assembler.currentPath .. assembler.includeDir .. "Assembler/**.h",
+			assembler.currentPath .. assembler.includeDir .. "Assembler/**.hpp",
+			assembler.currentPath .. assembler.sourceDir .. "Assembler/**.h",
+			assembler.currentPath .. assembler.sourceDir .. "Assembler/**.hpp",
+			assembler.currentPath .. assembler.sourceDir .. "Assembler/**.c",
+			assembler.currentPath .. assembler.sourceDir .. "Assembler/**.cpp"
+		})
+	end
+	targetname("lcpp")
+end)
+
+return { assembler, linker, cCompiler, cppCompiler, common }

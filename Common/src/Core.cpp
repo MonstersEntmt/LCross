@@ -110,9 +110,9 @@ Format getDefaultCompileFormatForHost() {
 }
 
 void printHostPlatform() {
-	std::cout << PrintUtils::appInfo << "Host platform is " << PrintUtils::colorSchemeNoteLabel << (Platform) _HOST_PLATFORM_ << PrintUtils::normal << std::endl;
+	std::cout << PrintUtils::appInfo << "Host platform is " << PrintUtils::colorSchemeArg << (Platform) _HOST_PLATFORM_ << PrintUtils::normal << std::endl;
 }
 
 void printHostArch() {
-	std::cout << PrintUtils::appInfo << "Host platform is " << PrintUtils::colorSchemeNoteLabel << (Arch) _HOST_ARCH_ << PrintUtils::normal << std::endl;
+	std::cout << PrintUtils::appInfo << "Host platform is " << PrintUtils::colorSchemeArg << (Arch) _HOST_ARCH_ << PrintUtils::normal << std::endl;
 }

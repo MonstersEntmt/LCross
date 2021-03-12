@@ -243,9 +243,9 @@ function APP.GetOrCreateApp(name)
 	app.group = "Apps"
 	app.currentPath = GLOBALS.currentPath
 	app.location = name .. "/"
-	app.objectDir = "Output/" .. name .. "/Obj/"
-	app.outputDir = "Output/" .. name .. "/Bin/"
-	app.libraryDir = "Output/" .. name .. "/Lib/"
+	app.objectDir = "Output/Int/" .. app.name .. "/"
+	app.outputDir = "Output/Bin/"
+	app.libraryDir = "Output/Bin/"
 	app.includeDir = name .. APP.defaultIncludeDir
 	app.sourceDir = name .. APP.defaultSourceDir
 	app.resourceDir = name .. APP.defaultDebugFolder .. "assets/"
