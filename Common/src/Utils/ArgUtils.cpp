@@ -229,7 +229,7 @@ static void handleArchArg(ArgUtils& argUtils, size_t& usedValueCount, bool& argF
 	std::string argValue = values[0];
 	if (argValue == "default") argUtils.setOutputArch(Arch::DEFAULT);
 #if _TARGETS_X86_
-	else if (argValue == "x86") argUtils.setOutputArch(Arch::X86_64);
+	else if (argValue == "x86") argUtils.setOutputArch(Arch::X86);
 #endif
 #if _TARGETS_X86_64_
 	else if (argValue == "x86_64") argUtils.setOutputArch(Arch::X86_64);
@@ -240,6 +240,7 @@ static void handleArchArg(ArgUtils& argUtils, size_t& usedValueCount, bool& argF
 #if _TARGETS_ARM64_
 	else if (argValue == "arm64") argUtils.setOutputArch(Arch::ARM64);
 #endif
+	usedValueCount = 1;
 }
 
 static void handleOutputArg(ArgUtils& argUtils, size_t& usedValueCount, bool& argFailed, std::string arg, std::vector<std::string> values) {

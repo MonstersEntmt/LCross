@@ -18,6 +18,7 @@ namespace Linker {
 #if _TARGETS_BIN_
 		else if (argValue == "bin") sLinkerFormat = Format::BIN;
 #endif
+		usedValueCount = 1;
 	}
 
 	void addInputArgs(ArgUtils& argUtils) {

@@ -41,11 +41,13 @@ int main(int argc, char** argv) {
 	Assembler::addInputArgs(argUtils);
 #endif
 	CppCompiler::addInputArgs(argUtils);
+	
 	argUtils.handle();
 	if (argUtils.hasFailed()) {
 		PrintUtils::restoreAnsi();
 		return EXIT_FAILURE;
 	}
+
 #ifndef _NO_LINKER_
 	Linker::handleArgs();
 #endif
@@ -54,6 +56,11 @@ int main(int argc, char** argv) {
 #endif
 	CppCompiler::handleArgs();
 	argUtils.handleArgs();
+
+	if (argUtils.hasFailed()) {
+		PrintUtils::restoreAnsi();
+		return EXIT_FAILURE;
+	}
 
 	if (argUtils.isVerbose()) {
 		printHostPlatform();

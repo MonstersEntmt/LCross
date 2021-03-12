@@ -17,13 +17,20 @@ int main(int argc, char** argv) {
 	ArgUtils argUtils(argc, argv);
 	Linker::addInputArgs(argUtils);
 	argUtils.setHasNoLinkArg(false);
+	
 	argUtils.handle();
 	if (argUtils.hasFailed()) {
 		PrintUtils::restoreAnsi();
 		return EXIT_FAILURE;
 	}
+
 	Linker::handleArgs();
 	argUtils.handleArgs();
+
+	if (argUtils.hasFailed()) {
+		PrintUtils::restoreAnsi();
+		return EXIT_FAILURE;
+	}
 
 	if (argUtils.isVerbose()) {
 		printHostPlatform();
