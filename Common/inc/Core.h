@@ -54,14 +54,6 @@ Format getDefaultCompileFormatForHost();
 void printHostPlatform();
 void printHostArch();
 
-#if !(_HAS_ARCH(_X86) || _HAS_ARCH(_X86_64) || _HAS_ARCH(_ARM32) || _HAS_ARCH(_ARM64))
-#error Given target in _ARCH_ macro is not a supported target!
-#endif
-
-#if !(_HAS_FORMAT(_PE) || _HAS_FORMAT(_ELF) || _HAS_FORMAT(_BIN))
-#error Given format in _FORMAT_ macro is not a supported format!
-#endif
-
 #if _HAS_ARCH(_X86)
 #define _TARGETS_X86_ true
 #else
@@ -102,4 +94,12 @@ void printHostArch();
 #define _TARGETS_BIN_ true
 #else
 #define _TARGETS_BIN_ false
+#endif
+
+#if !(_TARGETS_X86_ || _TARGETS_X86_64_ || _TARGETS_ARM32_ || _TARGETS_ARM64_)
+#error Given target(s) in _ARCH_ macro is not a supported target!
+#endif
+
+#if !(_TARGETS_PE_ || _TARGETS_ELF_ || _TARGETS_BIN_)
+#error Given format(s) in _FORMAT_ macro is not a supported format!
 #endif

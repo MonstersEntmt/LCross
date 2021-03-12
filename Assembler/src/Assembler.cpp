@@ -77,6 +77,7 @@ static void handleNoLinkArg(ArgUtils& argUtils, size_t& usedValueCount, bool& ar
 }
 
 int main(int argc, char** argv) {
+	PrintUtils::setupAnsi();
 	ArgUtils argUtils(argc, argv);
 	argUtils.addHandler("", &handleDefaultArg);
 	argUtils.addHandler("-f", &handleFormatArg);
@@ -114,7 +115,10 @@ int main(int argc, char** argv) {
 	argUtils.addArgValue("-o", "output filename", "R");
 	argUtils.addArgInfo("-no_link", "Do not link the file inputs", "This makes '<input filenames ...>' syntax wrong as it uses '<input filename>' syntax instead");
 	argUtils.handle();
-	if (argUtils.hasFailed()) return EXIT_FAILURE;
+	if (argUtils.hasFailed()) {
+		PrintUtils::restoreAnsi();
+		return EXIT_FAILURE;
+	}
 
 	if (assemblerFormat == Format::DEFAULT) assemblerFormat = getDefaultCompileFormatForHost();
 	if (assemblerArch == Arch::DEFAULT) assemblerArch = getDefaultCompileArchForHost();
@@ -123,6 +127,7 @@ int main(int argc, char** argv) {
 		if (assemblerLinkInputs && assemblerInputs.size() > 1) {
 			std::cout << PrintUtils::appError << "Missing output filename!" << PrintUtils::normal << std::endl;
 			std::cout << PrintUtils::appUsage << "'\"" << argUtils.getCommand() << "\" " << getFullUsageString(argUtils, nullptr) << "'" << PrintUtils::normal << std::endl;
+			PrintUtils::restoreAnsi();
 			return EXIT_FAILURE;
 		}
 		assemblerOutput = assemblerInputs[0];
@@ -173,5 +178,6 @@ int main(int argc, char** argv) {
 		std::cout << PrintUtils::appInfo << "Current input filename is " << PrintUtils::colorSchemeArg << "'" << assemblerInputs[0] << "'" << PrintUtils::normal << std::endl;
 	}
 
+	PrintUtils::restoreAnsi();
 	return EXIT_SUCCESS;
 }

@@ -154,6 +154,7 @@ static void handleHelpArg(ArgUtils& argUtils, size_t& usedValueCount, bool& argF
 		}
 		std::cout << PrintUtils::normal << std::endl;
 	}
+	PrintUtils::restoreAnsi();
 	exit(EXIT_SUCCESS);
 }
 

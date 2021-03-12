@@ -1,6 +1,34 @@
 #include "Utils/PrintUtils.h"
+#if _HOST_PLATFORM_ == _WINDOWS
+#include <Windows.h>
+#ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
+#define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
+#endif
+#endif
 
 namespace PrintUtils {
+	static HANDLE stdoutHandle;
+	static DWORD defaultMode;
+
+	void setupAnsi() {
+#if _HOST_PLATFORM_ == _WINDOWS
+		stdoutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+		if (stdoutHandle == INVALID_HANDLE_VALUE) return;
+		DWORD mode;
+		if (!GetConsoleMode(stdoutHandle, &mode)) return;
+		defaultMode = mode;
+		mode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+		SetConsoleMode(stdoutHandle, mode);
+#endif
+	}
+
+	void restoreAnsi() {
+#if _HOST_PLATFORM_ == _WINDOWS
+		if (stdoutHandle == INVALID_HANDLE_VALUE) return;
+		SetConsoleMode(stdoutHandle, defaultMode);
+#endif
+	}
+
 	std::string ansiFGColor(ANSIColor color, bool bright) {
 		return "\033[" + std::to_string((uint8_t) color + (bright ? 90 : 30)) + "m";
 	}

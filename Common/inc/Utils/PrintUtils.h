@@ -16,6 +16,9 @@ namespace PrintUtils {
 		WHITE = 7
 	};
 
+	void setupAnsi();
+	void restoreAnsi();
+
 	std::string ansiFGColor(ANSIColor color, bool bright = false);
 	std::string ansiBGColor(ANSIColor color, bool bright = false);
 	std::string ansiFGBColor(ANSIColor color, uint8_t brightness);
