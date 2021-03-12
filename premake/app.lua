@@ -257,6 +257,7 @@ function APP.GetOrCreateApp(name)
 	app.warnings = "Default"
 	app.dependencies = {}
 	app.states = {}
+	app.globalStates = {}
 	app.flags = { "MultiProcessorCompile" }
 	
 	app.ToString = function()
@@ -313,10 +314,33 @@ function APP.GetOrCreateApp(name)
 			APP.DebugLog("Added state '" .. filter .. "' to '" .. app.name .. "'")
 		end
 	end
+	app.AddGlobalState = function(filter, func)
+		table.insert(app.globalStates, { filter = filter, func = func })
+		if type(filter) == "table" then
+			local str = "Added state { "
+			for i, flt in pairs(filter) do
+				str = str .. "'" .. flt .. "'"
+				if i < #filter then
+					str = str .. ", "
+				end
+			end
+			APP.DebugLog(str .. " } to '" .. app.name .. "'")
+		else
+			APP.DebugLog("Added Global state '" .. filter .. "' to '" .. app.name .. "'")
+		end
+	end
 	app.GetAllIncludedDirectories = function(includeDirs)
 		table.insert(includeDirs, app.currentPath .. app.includeDir)
 		for name, dep in pairs(app.dependencies) do
 			dep.GetAllIncludedDirectories(includeDirs)
+		end
+	end
+	app.GetAllGlobalStates = function(states)
+		for k, v in pairs(app.globalStates) do
+			table.insert(states, v)
+		end
+		for name, dep in pairs(app.dependencies) do
+			dep.GetAllGlobalStates(states)
 		end
 	end
 	
@@ -377,6 +401,15 @@ function APP.PremakeApp(app)
 	for i, state in pairs(app.states) do
 		filter(state.filter)
 		state.func()
+	end
+	
+	local allGlobalStates = {}
+	app.GetAllGlobalStates(allGlobalStates)
+	if #allGlobalStates > 0 then
+		for i, state in pairs(allGlobalStates) do
+			filter(state.filter)
+			state.func()
+		end
 	end
 	
 	if project().kind == "StaticLib" or project().kind == "SharedLib" then

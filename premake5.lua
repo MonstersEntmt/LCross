@@ -4,7 +4,7 @@ UTILS = require("premake/utils")
 
 -- Set workspace name
 -- Add platforms and configurations
-APP.SetWorkspaceName("Premake Workspace")
+APP.SetWorkspaceName("LCross")
 UTILS.AddPlatforms()
 UTILS.AddConfigurations()
 
