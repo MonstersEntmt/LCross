@@ -161,6 +161,9 @@ void AssemblerArgUtils::handleOutputName() {
 #endif
 
 void AssemblerArgUtils::handleVirt() {
+#ifndef _NO_LINKER_
+	LinkerArgUtils::handleVirt();
+#endif
 	if (this->outputArch == Arch::DEFAULT)
 		this->outputArch = getDefaultCompileArchForHost();
 }
