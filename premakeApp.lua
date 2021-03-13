@@ -175,7 +175,7 @@ cCompiler.AddDependency(common)
 cCompiler.AddState({}, function()
 	if _OPTIONS["c-compiler-no-link"] then
 		defines({ "_NO_LINKER_" })
-	else
+	elseif not _OPTIONS["c-compiler-no-assemble"] then
 		sysincludedirs({ linker.currentPath .. linker.includeDir })
 		files({
 			linker.currentPath .. linker.includeDir .. "Linker/**.h",
@@ -188,6 +188,7 @@ cCompiler.AddState({}, function()
 	end
 	if _OPTIONS["c-compiler-no-assemble"] then
 		defines({ "_NO_ASSEMBLER_" })
+		defines({ "_NO_LINKER_" })
 	else
 		sysincludedirs({ assembler.currentPath .. assembler.includeDir })
 		files({
@@ -208,7 +209,7 @@ cppCompiler.AddDependency(common)
 cppCompiler.AddState({}, function()
 	if _OPTIONS["cpp-compiler-no-link"] then
 		defines({ "_NO_LINKER_" })
-	else
+	elseif not _OPTIONS["cpp-compiler-no-assemble"] then
 		sysincludedirs({ linker.currentPath .. linker.includeDir })
 		files({
 			linker.currentPath .. linker.includeDir .. "Linker/**.h",
@@ -221,6 +222,7 @@ cppCompiler.AddState({}, function()
 	end
 	if _OPTIONS["cpp-compiler-no-assemble"] then
 		defines({ "_NO_ASSEMBLER_" })
+		defines({ "_NO_LINKER_" })
 	else
 		sysincludedirs({ assembler.currentPath .. assembler.includeDir })
 		files({

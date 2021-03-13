@@ -1,6 +1,6 @@
 #include "Core.h"
 
-#include "Utils/PrintUtils.h"
+#include "Common/PrintUtils.h"
 
 HostInfo getHostInfo() {
 	return { (Platform) _HOST_PLATFORM_, (Arch) _HOST_ARCH_ };

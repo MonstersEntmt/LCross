@@ -1,0 +1,10 @@
+#include <Core.h>
+#if _TARGETS_X86_
+#include "Assembler/Arch/X86Assembler.h"
+
+namespace Architecture::X86 {
+	AssemblerError assemble(const AssemblerOptions& options, const std::vector<std::string>& instruction, std::vector<uint8_t>& bytecode) {
+		return AssemblerError::NOT_IMPLEMENTED;
+	}
+}
+#endif
