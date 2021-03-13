@@ -25,11 +25,8 @@ If you want LCross to only be able to compile `x86` or `arm32` files use one, or
 - `--arch-arm64`: Makes LCross compile `arm64` compile files
 
 Extra arguments:
-- `--assembler-no-link`: Disables LASM's ability to link files.
-- `--c-compiler-no-link`: Disables LCC's ability to link files.
-- `--c-compiler-no-assemble`: Disables LCC's ability to assemble files.
-- `--cpp-compiler-no-link`: Disables LCPP's ability to link files.
-- `--cpp-compiler-no-assemble`: Disables LCPP's ability to assemble files.
+- `--no-builtin-linker`: Disables builtin linkers in executables apart from llink
+- `--no-builtin-assembler`: Disables builtin assemblers in executables apart from lasm
 
 # Roadmap
 Currently this project is far from done.<br>
