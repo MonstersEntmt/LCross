@@ -1,6 +1,8 @@
 #pragma once
 
 #include <Common/ArgUtils.h>
+#include <Common/ByteBuffer.h>
+#include <Common/LCO.h>
 #include <Core.h>
 
 class LinkerArgUtils : public ArgUtils {
@@ -20,17 +22,20 @@ public: // Passed Arg Data
 
 enum class LinkerError : uint32_t {
 	GOOD = 0,
-	NOT_IMPLEMENTED
+	NOT_IMPLEMENTED,
+	INVALID_OUTPUT_FORMAT,
+	INVALID_OUTPUT_ARCH
 };
 
 std::ostream& operator<<(std::ostream& ostream, LinkerError linkerError);
 
 struct LinkerOptions {
-	bool verbose = false;
+	bool verbose        = false;
 	Format outputFormat = Format::DEFAULT;
-	std::vector<std::vector<uint8_t>> inputFiles;
+	std::vector<LCO> inputFiles;
+	std::string entryPoint;
 };
 
 namespace Linker {
-	LinkerError link(const LinkerOptions& options, std::vector<uint8_t>& bytecode);
+	LinkerError link(const LinkerOptions& options, ByteBuffer& bytecode);
 }

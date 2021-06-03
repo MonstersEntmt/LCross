@@ -1,13 +1,14 @@
 #pragma once
 
 #include <Common/ArgUtils.h>
+#include <Common/LCO.h>
 #include <Core.h>
 
 #include <string>
 #include <vector>
 
 #ifndef _NO_LINKER_
-#include <Linker/Linker.h>
+	#include <Linker/Linker.h>
 #endif
 
 #ifdef _NO_LINKER_
@@ -25,9 +26,7 @@ public:
 #endif
 
 	virtual std::string getFullUsageString(const FlagInfo* currentFlag) override;
-#ifndef _NO_LINKER_
 	virtual void handleOutputName() override;
-#endif
 
 	virtual void handleVirt() override;
 
@@ -43,22 +42,28 @@ enum class AssemblerError : uint32_t {
 	NOT_IMPLEMENTED,
 	INVALID_OUTPUT_ARCH,
 	INVALID_INSTRUCTION,
-	INVALID_LABEL
+	INVALID_LABEL,
+	SETUP_CORRUPTED
 };
 
 std::ostream& operator<<(std::ostream& ostream, AssemblerError error);
 
 struct AssemblerOptions {
-	bool verbose = false;
+	bool verbose    = false;
 	Arch outputArch = Arch::DEFAULT;
 };
 
 namespace Assembler {
 	struct LabelInfo {
-		std::string labelName;
+		std::string name;
 		size_t lineNumber = 0;
 	};
 
-	void tokenize(const std::string& str, std::vector<std::vector<std::string_view>>& tokens);
-	AssemblerError assemble(const AssemblerOptions& options, const std::string& fileContent, std::vector<uint8_t>& bytecode);
-}
+	struct LineInfo {
+		std::string sectionName;
+		ByteBuffer bytes;
+	};
+
+	AssemblerError tokenize(const std::string& str, std::vector<std::vector<std::string>>& tokens);
+	AssemblerError assemble(const AssemblerOptions& options, const std::string& fileContent, LCO& lco);
+} // namespace Assembler

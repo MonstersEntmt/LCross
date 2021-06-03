@@ -43,9 +43,9 @@ int main(int argc, char** argv) {
 		options.outputFormat = argUtils.outputFormat;
 		options.inputFiles.resize(inputNames.size());
 		for (size_t i = 0; i < inputNames.size(); i++)
-			FileUtils::readFileBinary(inputNames[i], options.inputFiles[i]);
+			FileUtils::readLCO(inputNames[i], options.inputFiles[i]);
 
-		std::vector<uint8_t> bytecode;
+		ByteBuffer bytecode;
 		LinkerError error = Linker::link(options, bytecode);
 		if (error != LinkerError::GOOD) {
 			std::cout << PrintUtils::appError << "Linker failed with error " << PrintUtils::colorSchemeArg << "'" << error << "'" << PrintUtils::colorSchemeError << "!" << PrintUtils::normal << std::endl;

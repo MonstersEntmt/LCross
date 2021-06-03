@@ -32,7 +32,8 @@ int main(int argc, char** argv) {
 				for (size_t i = 0; i < inputNames.size(); i++)
 					std::cout << std::endl << "    '" << inputNames[i] << "'";
 				std::cout << PrintUtils::normal;
-			} else {
+			}
+			else {
 				std::cout << PrintUtils::appInfo << "Current input filename is " << PrintUtils::colorSchemeArg << "'" << inputNames[0] << "'" << PrintUtils::normal << std::endl;
 			}
 		}
@@ -105,15 +106,16 @@ int main(int argc, char** argv) {
 		if (argUtils.verbose)
 			std::cout << PrintUtils::appInfo << "C Compiler succeeded" << PrintUtils::normal << std::endl;
 
-		std::vector<std::vector<uint8_t>> binaries;
+		std::vector<LCO> lcos;
 		for (auto& assemblyFile : assemblyFiles) {
-			std::vector<uint8_t> bytecode;
-			AssemblerError error = Assembler::assemble(assemblerOptions, assemblyFile, bytecode);
+			LCO lco;
+			AssemblerError error = Assembler::assemble(assemblerOptions, assemblyFile, lco);
 			if (error != AssemblerError::GOOD) {
 				std::cout << PrintUtils::appError << "Assembler failed with error " << PrintUtils::colorSchemeArg << "'" << error << "'" << PrintUtils::colorSchemeError << "!" << PrintUtils::normal << std::endl;
 				PrintUtils::restoreAnsi();
 				return EXIT_FAILURE;
 			}
+			lcos.push_back(lco);
 		}
 
 		if (argUtils.verbose)
@@ -122,8 +124,8 @@ int main(int argc, char** argv) {
 		LinkerOptions linkerOptions;
 		linkerOptions.outputFormat = argUtils.outputFormat;
 		linkerOptions.verbose = argUtils.verbose;
-		linkerOptions.inputFiles = binaries;
-		std::vector<uint8_t> bytecode;
+		linkerOptions.inputFiles = lcos;
+		ByteBuffer bytecode;
 		LinkerError error = Linker::link(linkerOptions, bytecode);
 		if (error != LinkerError::GOOD) {
 			std::cout << PrintUtils::appError << "Linker failed with error " << PrintUtils::colorSchemeArg << "'" << error << "'" << PrintUtils::colorSchemeError << "!" << PrintUtils::normal << std::endl;
@@ -136,7 +138,8 @@ int main(int argc, char** argv) {
 			std::cout << PrintUtils::appInfo << "Linker succeeded" << PrintUtils::normal << std::endl;
 #endif
 #endif
-	} catch (std::exception e) {
+	}
+	catch (std::exception e) {
 		PrintUtils::restoreAnsi();
 		return EXIT_FAILURE;
 	}

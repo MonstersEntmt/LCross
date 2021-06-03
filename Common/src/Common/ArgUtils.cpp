@@ -60,23 +60,8 @@ std::ostream& operator<<(std::ostream& ostream, const FlagInfo& flagInfo) {
 ArgUtils::ArgUtils(int argc, char** argv)
 	: argc(argc), argv(argv) {
 	registerFlagInfo(FlagInfo("-h", "Show this help information or if given a flag this will show info about that flag", "Flag should not contain '-' e.g. for flag '-f' give 'f' as value", { FlagValueInfo("flags", FlagValueType::MULTI, {}) }));
-	registerFlagInfo(FlagInfo("-v", "Show the verseion of this app", "", {}));
+	registerFlagInfo(FlagInfo("-v", "Show the version of this app", "", {}));
 	registerFlagInfo(FlagInfo("-verbose", "Print debug information", "", {}));
-	//	registerArgInfo(FlagInfo("-a", "Select output architecture", "", { FlagValueInfo("architecture", FlagValueType::REQUIRED, {
-	//		"default",
-	//#if _TARGETS_X86_
-	//		"x86",
-	//#endif
-	//#if _TARGETS_X86_64_
-	//		"x86_64",
-	//#endif
-	//#if _TARGETS_ARM32_
-	//		"arm32",
-	//#endif
-	//#if _TARGETS_ARM64_
-	//		"arm64",
-	//#endif
-	//		}) }));
 	registerFlagInfo(FlagInfo("-o", "Set output filename", "", { FlagValueInfo("output filename", FlagValueType::REQUIRED, {}) }));
 
 	registerHandlerFunc("-h", std::bind(&ArgUtils::handleHelpFlag, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5));
