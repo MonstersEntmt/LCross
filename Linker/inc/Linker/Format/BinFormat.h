@@ -2,6 +2,6 @@
 
 #include "Linker/Linker.h"
 
-namespace Formats::Bin {
-	LinkerError link(const LinkerOptions& options, ByteBuffer& bytecode);
+namespace Linker::Bin {
+	LinkerError link(LinkerState& state, ByteBuffer& bytecode);
 }

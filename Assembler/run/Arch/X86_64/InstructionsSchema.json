@@ -1,0 +1,92 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema",
+	"description": "Instructions for X86_64",
+	"id": "InstructionsSchema",
+	"properties": {
+		"instructionList": {
+			"description": "Instructions list",
+			"items": {
+				"description": "Instruction listing",
+				"properties": {
+					"instructions": {
+						"description": "Instructions",
+						"items": {
+							"description": "Instruction",
+							"properties": {
+								"bits": {
+									"description": "What bits can this instruction be called on",
+									"items": {
+										"type": "integer"
+									},
+									"minItems": 1,
+									"type": "array",
+									"uniqueItems": true
+								},
+								"encoding": {
+									"description": "Encoding for this instruction",
+									"properties": {
+										"rex": {
+											"default": "",
+											"description": "REX Prefix for this instruction",
+											"type": "string"
+										},
+										"RXBmap_select": {
+											"default": "",
+											"description": "RXBmap_select byte of this instruction",
+											"type": "string"
+										},
+										"vex": {
+											"default": "",
+											"description": "VEX Prefix for this instruction",
+											"type": "string"
+										},
+										"WvvvvLpp": {
+											"default": "",
+											"description": "WvvvvLpp byte of this instruction",
+											"type": "string"
+										},
+										"xop": {
+											"default": "",
+											"description": "XOP Prefix for this instruction",
+											"type": "string"
+										}
+									},
+									"type": "object"
+								},
+								"mnemonic": {
+									"default": "",
+									"description": "Mnemonic for the instruction",
+									"type": "string"
+								},
+								"opcode": {
+									"description": "Opcode this instruction translates into",
+									"type": "string"
+								}
+							},
+							"required": [ "opcode", "bits", "mnemonic" ],
+							"type": "object"
+						},
+						"type": "array"
+					},
+					"name": {
+						"default": "",
+						"description": "Name of instruction",
+						"type": "string"
+					},
+					"syntax": {
+						"default": "",
+						"description": "Syntax for the instruction",
+						"type": "string"
+					}
+				},
+				"required": [ "name", "syntax", "instructions" ],
+				"type": "object"
+			},
+			"type": "array"
+		}
+	},
+	"required": [ "instructionList" ],
+	"title": "Instructions Schema",
+	"type": "object",
+	"version": "1.0.0"
+}

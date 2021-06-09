@@ -2,6 +2,6 @@
 
 #include "Linker/Linker.h"
 
-namespace Formats::PE {
-	LinkerError link(const LinkerOptions& options, ByteBuffer& bytecode);
+namespace Linker::PE {
+	LinkerError link(LinkerState& state, ByteBuffer& bytecode);
 }

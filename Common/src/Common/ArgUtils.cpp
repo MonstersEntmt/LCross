@@ -1,13 +1,16 @@
 #include "Common/ArgUtils.h"
 
-#include "Core.h"
+#include "Common/Logger.h"
 #include "Common/PrintUtils.h"
+#include "Core.h"
+
+#include <sstream>
 
 FlagValueInfo::FlagValueInfo(const std::string& name, FlagValueType type, const std::vector<std::string>& values)
-	: name(name), type(type), values(values) {}
+    : name(name), type(type), values(values) { }
 
 FlagInfo::FlagInfo(const std::string& name, const std::string& desc, const std::string& note, const std::vector<FlagValueInfo>& values)
-	: name(name), desc(desc), note(note), values(values) {}
+    : name(name), desc(desc), note(note), values(values) { }
 
 std::string FlagInfo::getSyntax() const {
 	std::string syntax = this->name;
@@ -22,43 +25,45 @@ std::string FlagInfo::getSyntax() const {
 	return syntax;
 }
 
-std::ostream& operator<<(std::ostream& ostream, const FlagInfo& flagInfo) {
-	ostream << PrintUtils::colorSchemeInfo << PrintUtils::appName << " Flag " << PrintUtils::colorSchemeArg << "'" << flagInfo.getSyntax() << "'" << PrintUtils::colorSchemeInfo;
+std::string Format::Formatter<FlagInfo>::format(const FlagInfo& flagInfo, const std::string& options) {
+	std::string str = Format::format("{0}{1} Flag {2}'{3}'{0}", LogColors::Info, PrintUtils::appName(), LogColors::Arg, flagInfo.getSyntax());
 
-	if (!flagInfo.desc.empty()) ostream << ": " << flagInfo.desc << PrintUtils::colorSchemeInfo;
+	if (!flagInfo.desc.empty()) str += ": " + flagInfo.desc;
 
-	if (!flagInfo.note.empty()) ostream << std::endl << "    " << PrintUtils::colorSchemeNote << "(" << PrintUtils::colorSchemeNoteLabel << "Note" << PrintUtils::colorSchemeNote << ": " << flagInfo.note << ")" << PrintUtils::colorSchemeInfo;
+	if (!flagInfo.note.empty()) str += Format::format("\n    {0}({1}Note{0}: {2})", LogColors::Note, LogColors::NoteLabel, flagInfo.note);
 
 	for (size_t i = 0; i < flagInfo.values.size(); i++) {
-		auto& flagValueInfo = flagInfo.values[i];
+		auto& flagValueInfo   = flagInfo.values[i];
 		auto& flagValueValues = flagValueInfo.values;
 		if (flagValueValues.size() > 0) {
-			ostream << std::endl << PrintUtils::appName << " Flag values for " << PrintUtils::colorSchemeArg << "'" << flagValueInfo.name << "'" << PrintUtils::colorSchemeInfo << ":";
+			str += Format::format("\n{} Flag values for {}'{}'{}:", PrintUtils::appName(), LogColors::Arg, flagValueInfo.name, LogColors::Info);
 
 			size_t numChars = 0;
 			for (size_t j = 0; j < flagValueValues.size(); j++)
 				numChars += flagValueValues[j].length();
 
 			if (numChars > 50) {
+				str += Format::format("{}", LogColors::Arg);
 				for (size_t j = 0; j < flagValueValues.size(); j++)
-					ostream << std::endl << "    " << PrintUtils::colorSchemeArg << "'" << flagValueValues[j] << "'" << PrintUtils::colorSchemeInfo;
+					str += Format::format("\n    '{}'", flagValueValues[j]);
+				str += Format::format("{}", LogColors::Info);
 			} else {
 				for (size_t j = 0; j < flagValueValues.size(); j++) {
 					if (j == 0)
-						ostream << " ";
+						str += " ";
 					else
-						ostream << ", ";
-					ostream << PrintUtils::colorSchemeArg << "'" << flagValueValues[j] << "'" << PrintUtils::colorSchemeInfo;
+						str += ", ";
+					str += Format::format("{}'{}'{}", LogColors::Arg, flagValueValues[j], LogColors::Info);
 				}
 			}
 		}
 	}
-	ostream << PrintUtils::normal;
-	return ostream;
+	str += Format::format("{0:r}{0:br}", LogColors::Black);
+	return str;
 }
 
 ArgUtils::ArgUtils(int argc, char** argv)
-	: argc(argc), argv(argv) {
+    : argc(argc), argv(argv) {
 	registerFlagInfo(FlagInfo("-h", "Show this help information or if given a flag this will show info about that flag", "Flag should not contain '-' e.g. for flag '-f' give 'f' as value", { FlagValueInfo("flags", FlagValueType::MULTI, {}) }));
 	registerFlagInfo(FlagInfo("-v", "Show the version of this app", "", {}));
 	registerFlagInfo(FlagInfo("-verbose", "Print debug information", "", {}));
@@ -68,14 +73,14 @@ ArgUtils::ArgUtils(int argc, char** argv)
 	registerHandlerFunc("-v", std::bind(&ArgUtils::handleVersionFlag, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5));
 	registerHandlerFunc("", [](ArgUtils& argUtils, const std::string& arg, const std::vector<std::string>& argValues, size_t& usedValueCount, bool& argFailed) {
 		argUtils.inputNames.push_back(arg);
-		});
+	});
 	registerHandlerFunc("-verbose", [](ArgUtils& argUtils, const std::string& arg, const std::vector<std::string>& argValues, size_t& usedValueCount, bool& argFailed) {
 		argUtils.verbose = true;
-		});
+	});
 	registerHandlerFunc("-o", [](ArgUtils& argUtils, const std::string& arg, const std::vector<std::string>& argValues, size_t& usedValueCount, bool& argFailed) {
 		argUtils.outputName = argValues[0];
-		usedValueCount = 1;
-		});
+		usedValueCount      = 1;
+	});
 }
 
 void ArgUtils::registerFlagInfo(const FlagInfo& argInfo) {
@@ -100,48 +105,45 @@ void ArgUtils::handleHelpFlag(ArgUtils& argUtils, const std::string& arg, const 
 	if (argValues.size() > 0) {
 		for (size_t i = 0; i < argValues.size(); i++) {
 			const std::string& argValue = argValues[i];
-			const FlagInfo* flagInfo = getFlagInfo("-" + argValue);
+			const FlagInfo* flagInfo    = getFlagInfo("-" + argValue);
 			if (flagInfo) {
-				std::cout << PrintUtils::appHelp << "Help for flag " << PrintUtils::colorSchemeArg << "'" << flagInfo->name << "'" << PrintUtils::colorSchemeHelp << std::endl;
-				std::cout << PrintUtils::appUsage << "'\"" << getProcessCommand() << "\" " << getFullUsageString(flagInfo) << "'" << std::endl;
-				std::cout << *flagInfo << PrintUtils::normal << std::endl;
+				Logger::log(LogSeverity::Help, "Help for flag {}'{}'{}", LogColors::Arg, flagInfo->name, LogColors::Help);
+				Logger::log(LogSeverity::Usage, "'\"{}\" {}'", getProcessCommand(), getFullUsageString(flagInfo));
+				Logger::print("{}", *flagInfo);
 			} else {
-				std::cout << PrintUtils::appError << "Flag " << PrintUtils::colorSchemeArg << "'-" << argValue << "'" << PrintUtils::colorSchemeError << " is not a valid flag for this app!" << PrintUtils::normal << std::endl;
+				Logger::log(LogSeverity::Error, "Flag {}'-{}'{} is not a valid flag for this app!", LogColors::Arg, argValue, LogColors::Error);
 				argFailed = true;
 			}
 		}
 	} else {
-		std::cout << PrintUtils::appUsage << "'\"" << getProcessCommand() << "\" " << getFullUsageString(nullptr) << "'" << std::endl;
-		std::cout << PrintUtils::colorSchemeInfo << PrintUtils::appName << " Flags:";
+		Logger::log(LogSeverity::Usage, "'\"{}\" {}'", getProcessCommand(), getFullUsageString(nullptr));
+		Logger::print("{}{} Flags:", LogColors::Info, PrintUtils::appName());
 
 		size_t maxFlagSyntaxLength = 0;
 		for (size_t i = 0; i < argInfos.size(); i++) {
 			auto& flagInfo = argInfos[i];
-			size_t len = flagInfo.getSyntax().length();
+			size_t len     = flagInfo.getSyntax().length();
 			if (len > maxFlagSyntaxLength)
 				maxFlagSyntaxLength = len;
 		}
 
 		for (size_t i = 0; i < argInfos.size(); i++) {
-			auto& flagInfo = argInfos[i];
+			auto& flagInfo         = argInfos[i];
 			std::string flagSyntax = flagInfo.getSyntax();
-			std::cout << std::endl << "    " << PrintUtils::colorSchemeArg << "'" << flagSyntax << "'" << PrintUtils::colorSchemeInfo;
-			size_t requiredSpaces = (maxFlagSyntaxLength + 1) - flagSyntax.length();
-			std::cout << std::string(requiredSpaces, ' ');
-			if (!flagInfo.desc.empty()) std::cout << flagInfo.desc;
-			if (!flagInfo.note.empty()) std::cout << std::endl << "           " << std::string(maxFlagSyntaxLength, ' ') << PrintUtils::colorSchemeNote << "(" << PrintUtils::colorSchemeNoteLabel << "Note" << PrintUtils::colorSchemeNote << ": " << flagInfo.note << ")";
+			Logger::print("    {}'{}'{} {}{}", LogColors::Arg, flagSyntax, LogColors::Info, flagInfo.desc.empty() ? "" : flagInfo.desc, std::string((maxFlagSyntaxLength + 1) - flagSyntax.length(), ' '));
+			if (!flagInfo.note.empty())
+				Logger::print("           {0}{1}({2}Note{1}: {3})", std::string(maxFlagSyntaxLength, ' '), LogColors::Note, LogColors::NoteLabel, flagInfo.note);
 		}
-		std::cout << PrintUtils::normal << std::endl;
 	}
 }
 
 void ArgUtils::handleVersionFlag(ArgUtils& argUtils, const std::string& arg, const std::vector<std::string>& argValues, size_t& usedValueCount, bool& argFailed) {
 	HostInfo hostInfo = getHostInfo();
-	std::cout << PrintUtils::colorSchemeInfo << PrintUtils::appName << " version " << PrintUtils::colorSchemeArg << PrintUtils::appVersion << PrintUtils::colorSchemeInfo << std::endl;
-	std::cout << "Built for " << PrintUtils::colorSchemeArg << hostInfo.platform << " " << hostInfo.arch << PrintUtils::colorSchemeInfo << std::endl;
-	std::cout << "License " << PrintUtils::colorSchemeArg << "GPLv3+" << PrintUtils::colorSchemeInfo << ": GNU GPL Version 3 or later " << PrintUtils::colorSchemeArg << "<https://gnu.org/licenses/gpl.html>" << PrintUtils::colorSchemeInfo << std::endl;
-	std::cout << "This is free software: You are free to change and redistribute it." << std::endl;
-	std::cout << "There is " << PrintUtils::colorSchemeArg << "NO WARRANTY" << PrintUtils::colorSchemeInfo << ", to the extent permitted by law." << PrintUtils::normal << std::endl;
+	Logger::print("{0}{1} version {2}'{3}'{0}", LogColors::Info, PrintUtils::appName(), LogColors::Arg, PrintUtils::appVersion());
+	Logger::print("{}Built for {} {}", LogColors::Info, hostInfo.platform, hostInfo.arch);
+	Logger::print("{0}License {1}GPLv3+{0}: GNU GPL Version 3 or later {1}<https://gnu.org/licenses/gpl.html>{0}", LogColors::Info, LogColors::Arg);
+	Logger::print("{}This is free software: You are free to change and redistribute it.", LogColors::Info);
+	Logger::print("{0}There is {1}NO WARRANTY{0}, to the extent permitted by law.", LogColors::Info, LogColors::Arg);
 }
 
 std::string ArgUtils::getFullUsageString(const FlagInfo* currentFlag) {
@@ -188,18 +190,17 @@ void ArgUtils::handle() {
 
 				if (argValues.size() < requiredValueCount) {
 					if (requiredValueCount == 1) {
-						std::cout << PrintUtils::appError << "Missing value " << PrintUtils::colorSchemeArg << "'<" << flagInfo->values[0].name << ">'" << PrintUtils::colorSchemeError << "!" << PrintUtils::normal << std::endl;
+						Logger::log(LogSeverity::Error, "Missing value {}'<{}>'{}!", LogColors::Arg, flagInfo->values[0].name, LogColors::Error);
 					} else {
-						// TODO: Print too few values error!
-						std::cout << PrintUtils::appError << "Too few values" << PrintUtils::normal << std::endl;
+						Logger::log(LogSeverity::Error, "Too few values");
 					}
 					argFailed = true;
 				}
 
 				if (!argFailed) {
 					for (size_t i = 0; i < std::min(flagInfo->values.size(), argValues.size()); i++) {
-						bool done = false;
-						auto& value = argValues[i];
+						bool done           = false;
+						auto& value         = argValues[i];
 						auto& flagValueInfo = flagInfo->values[i];
 						switch (flagValueInfo.type) {
 						case FlagValueType::MULTI:
@@ -208,8 +209,7 @@ void ArgUtils::handle() {
 						case FlagValueType::OPTIONAL:
 							done = true;
 							[[fallthrough]];
-						case FlagValueType::REQUIRED:
-						{
+						case FlagValueType::REQUIRED: {
 							auto& flagValueValues = flagValueInfo.values;
 							if (flagValueValues.size() > 0) {
 								bool found = false;
@@ -220,9 +220,9 @@ void ArgUtils::handle() {
 									}
 								}
 								if (!found) {
-									std::cout << PrintUtils::appError << "Value " << PrintUtils::colorSchemeArg << "'" << value << "'" << PrintUtils::colorSchemeError << " is not a valid value of " << PrintUtils::colorSchemeArg << "'" << flagValueInfo.name << ">'" << PrintUtils::colorSchemeError << "!" << PrintUtils::normal << std::endl;
+									Logger::log(LogSeverity::Error, "Value {0}'{1}'{2} is not a valid value of {0}'{3}'{0}", LogColors::Arg, value, LogColors::Error, flagValueInfo.name);
 									argFailed = true;
-									done = true;
+									done      = true;
 									break;
 								}
 							}
@@ -241,14 +241,16 @@ void ArgUtils::handle() {
 
 							if (arg == "-h" || arg == "-v") {
 								PrintUtils::restoreAnsi();
-								if (argFailed) exit(EXIT_FAILURE);
-								else exit(EXIT_SUCCESS);
+								if (argFailed)
+									exit(EXIT_FAILURE);
+								else
+									exit(EXIT_SUCCESS);
 							}
 						}
 					}
 				}
 			} else {
-				std::cout << PrintUtils::appWarn << "Flag " << PrintUtils::colorSchemeArg << "'" << arg << "'" << PrintUtils::colorSchemeWarn << " is not a valid flag for this app!" << PrintUtils::normal << std::endl;
+				Logger::log(LogSeverity::Warn, "Flag {}'{}'{} is not a valid flag for this app!", LogColors::Arg, arg, LogColors::Warn);
 			}
 		} else {
 			auto handler = this->handlerFuncs.find("");
@@ -260,18 +262,23 @@ void ArgUtils::handle() {
 		}
 
 		if (argFailed) {
-			std::cout << PrintUtils::appHelp << PrintUtils::normal << std::endl;
 			const FlagInfo* flagInfo = getFlagInfo(arg);
-			std::cout << PrintUtils::appUsage << "'\"" << getProcessCommand() << "\" " << getFullUsageString(flagInfo) << "'" << PrintUtils::normal << std::endl;
-			if (flagInfo) std::cout << *flagInfo << std::endl;
-			throw std::exception();
+			Logger::log(LogSeverity::Help, "");
+			Logger::log(LogSeverity::Usage, "'\"{}\" {}'", getProcessCommand(), getFullUsageString(flagInfo));
+			if (flagInfo)
+				Logger::print("{}", *flagInfo);
+
+			PrintUtils::restoreAnsi();
+			exit(EXIT_FAILURE);
 		}
 	}
 
 	if (this->inputNames.empty()) {
-		std::cout << PrintUtils::appError << "Missing input filename!" << PrintUtils::normal << std::endl;
-		std::cout << PrintUtils::appUsage << "'\"" << getProcessCommand() << "\" " << getFullUsageString(nullptr) << "'" << PrintUtils::normal << std::endl;
-		throw std::exception();
+		Logger::log(LogSeverity::Error, "Missing input filename!");
+		Logger::log(LogSeverity::Usage, "'\"{}\" {}'", getProcessCommand(), getFullUsageString(nullptr));
+
+		PrintUtils::restoreAnsi();
+		exit(EXIT_FAILURE);
 	}
 
 	handleVirt();

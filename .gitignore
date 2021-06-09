@@ -29,4 +29,4 @@ premake5.bat
 premake5.sh
 
 /Output/
-AMD64_APM_V3.pdf
+*.pdf

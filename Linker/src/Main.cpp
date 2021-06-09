@@ -1,14 +1,13 @@
 #include "Linker/Linker.h"
 
-#include <Common/PrintUtils.h>
 #include <Common/FileUtils.h>
+#include <Common/Logger.h>
+#include <Common/PrintUtils.h>
 
 namespace PrintUtils {
-	std::ostream& appName(std::ostream& ostream) { return ostream << "LLINK"; }
-	std::ostream& appVersionInfo(std::ostream& ostream) {
-		return ostream;
-	}
-}
+	std::string appName() { return "LLINK"; }
+	std::string appVersion() { return "0.1.0"; }
+} // namespace PrintUtils
 
 int main(int argc, char** argv) {
 	try {
@@ -20,47 +19,45 @@ int main(int argc, char** argv) {
 			printHostPlatform();
 			printHostArch();
 
-			std::cout << PrintUtils::appInfo << "Current output format is " << PrintUtils::colorSchemeArg << argUtils.outputFormat << PrintUtils::normal << std::endl;
-			std::cout << PrintUtils::appInfo << "Current output filename is " << PrintUtils::colorSchemeArg << "'" << argUtils.outputName << "'" << PrintUtils::normal << std::endl;
+			Logger::log(LogSeverity::Info, "Current output format is {}'{}'{}", LogColors::Arg, argUtils.outputFormat, LogColors::Info);
+			Logger::log(LogSeverity::Info, "Current output filename is {}'{}'{}", LogColors::Arg, argUtils.outputName, LogColors::Info);
 
 			auto& inputNames = argUtils.inputNames;
 			if (inputNames.size() > 1) {
-				std::cout << PrintUtils::appInfo << "Current input filenames are:" << PrintUtils::colorSchemeArg;
+				Logger::log(LogSeverity::Info, "Current input filenames are:");
 				for (size_t i = 0; i < inputNames.size(); i++)
-					std::cout << std::endl << "    '" << inputNames[i] << "'";
-				std::cout << PrintUtils::normal << std::endl;
+					Logger::print("{}    '{}'", LogColors::Arg, inputNames[i]);
 			} else {
-				std::cout << PrintUtils::appInfo << "Current input filename is " << PrintUtils::colorSchemeArg << "'" << inputNames[0] << "'" << PrintUtils::normal << std::endl;
+				Logger::log(LogSeverity::Info, "Current input filename is {}'{}'{}", LogColors::Arg, inputNames[0], LogColors::Info);
 			}
 		}
 
-		auto& inputNames = argUtils.inputNames;
+		auto& inputNames              = argUtils.inputNames;
 		const std::string& outputName = argUtils.outputName;
 		FileUtils::deleteFile(outputName);
 
-		LinkerOptions options;
-		options.verbose = argUtils.verbose;
-		options.outputFormat = argUtils.outputFormat;
-		options.inputFiles.resize(inputNames.size());
+		Linker::LinkerState state;
+		state.options.verbose      = argUtils.verbose;
+		state.options.outputFormat = argUtils.outputFormat;
+		state.options.inputFiles.resize(inputNames.size());
 		for (size_t i = 0; i < inputNames.size(); i++)
-			FileUtils::readLCO(inputNames[i], options.inputFiles[i]);
+			FileUtils::readLCO(inputNames[i], state.options.inputFiles[i]);
 
 		ByteBuffer bytecode;
-		LinkerError error = Linker::link(options, bytecode);
+		LinkerError error = Linker::link(state, bytecode);
 		if (error != LinkerError::GOOD) {
-			std::cout << PrintUtils::appError << "Linker failed with error " << PrintUtils::colorSchemeArg << "'" << error << "'" << PrintUtils::colorSchemeError << "!" << PrintUtils::normal << std::endl;
+			Logger::log(LogSeverity::Error, "Linker failed with error {}'{}'{}", LogColors::Arg, error, LogColors::Error);
 			PrintUtils::restoreAnsi();
 			return EXIT_FAILURE;
 		}
 		FileUtils::writeFileBinary(outputName, bytecode);
 
 		if (argUtils.verbose)
-			std::cout << PrintUtils::appInfo << "Linker succeeded" << PrintUtils::normal << std::endl;
+			Logger::log(LogSeverity::Info, "Linker succeeded");
 	} catch (std::exception e) {
 		PrintUtils::restoreAnsi();
 		return EXIT_FAILURE;
 	}
-
 	PrintUtils::restoreAnsi();
 	return EXIT_SUCCESS;
 }

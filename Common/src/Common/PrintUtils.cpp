@@ -1,9 +1,9 @@
 #include "Common/PrintUtils.h"
 #if _HOST_PLATFORM_ == _WINDOWS
-#include <Windows.h>
-#ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
-#define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
-#endif
+	#include <Windows.h>
+	#ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
+		#define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
+	#endif
 #endif
 
 namespace PrintUtils {
@@ -23,6 +23,7 @@ namespace PrintUtils {
 	}
 
 	void restoreAnsi() {
+		std::cout << ansiReset();
 #if _HOST_PLATFORM_ == _WINDOWS
 		if (stdoutHandle == INVALID_HANDLE_VALUE) return;
 		SetConsoleMode(stdoutHandle, defaultMode);
@@ -38,13 +39,17 @@ namespace PrintUtils {
 	}
 
 	std::string ansiFGBColor(ANSIColor color, uint8_t brightness) {
-		if (color == ANSIColor::WHITE) return "\033[38;5" + std::to_string(232 + brightness) + "m";
-		else return "\033[38;5;" + std::to_string((uint8_t) color * (brightness + 1));
+		if (color == ANSIColor::WHITE)
+			return "\033[38;5" + std::to_string(232 + brightness) + "m";
+		else
+			return "\033[38;5;" + std::to_string((uint8_t) color * (brightness + 1));
 	}
 
 	std::string ansiBGBColor(ANSIColor color, uint8_t brightness) {
-		if (color == ANSIColor::WHITE) return "\033[48;5" + std::to_string(232 + brightness) + "m";
-		else return "\033[48;5;" + std::to_string((uint8_t) color * (brightness + 1));
+		if (color == ANSIColor::WHITE)
+			return "\033[48;5" + std::to_string(232 + brightness) + "m";
+		else
+			return "\033[48;5;" + std::to_string((uint8_t) color * (brightness + 1));
 	}
 
 	std::string ansiFGColorRGB(uint8_t r, uint8_t g, uint8_t b) {
@@ -72,5 +77,4 @@ namespace PrintUtils {
 	std::ostream& appUsage(std::ostream& ostream) { return ostream << colorSchemeUsage << appName << " Usage: "; }
 	std::ostream& appHelp(std::ostream& ostream) { return ostream << colorSchemeHelp << appName << " Help: "; }
 	std::ostream& normal(std::ostream& ostream) { return ostream << ansiReset(); }
-	std::ostream& appVersion(std::ostream& ostream) { return ostream << "0.1.0"; }
-}
+} // namespace PrintUtils

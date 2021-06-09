@@ -1,0 +1,2196 @@
+{
+	"$schema": "InstructionsSchema.json",
+	"instructionList": [
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32 ],
+					"opcode": "37",
+					"mnemonic": ""
+				}
+			],
+			"name": "AAA",
+			"syntax": ""
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32 ],
+					"opcode": "D5 ib",
+					"mnemonic": "imm8=0A"
+				}
+			],
+			"name": "AAD",
+			"syntax": "base"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32 ],
+					"opcode": "D4 ib",
+					"mnemonic": "(imm8=0A)>0"
+				}
+			],
+			"name": "AAM",
+			"syntax": "base"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32 ],
+					"opcode": "3F",
+					"mnemonic": ""
+				}
+			],
+			"name": "AAS",
+			"syntax": ""
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "AL, imm8",
+					"opcode": "14 ib"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "AX, imm16",
+					"opcode": "15 iw"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "EAX, imm32",
+					"opcode": "15 id"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "RAX, imm32",
+					"opcode": "15 id"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem8, imm8",
+					"opcode": "80 /2 ib"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16, imm16",
+					"opcode": "81 /2 iw"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32, imm32",
+					"opcode": "81 /d id"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64, imm32",
+					"opcode": "81 /d id"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16, imm8",
+					"opcode": "83 /2 ib"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32, imm8",
+					"opcode": "83 /2 ib"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64, imm8",
+					"opcode": "83 /2 ib"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem8, reg8",
+					"opcode": "10 /r"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16, reg16",
+					"opcode": "11 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32, reg32",
+					"opcode": "11 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64, reg64",
+					"opcode": "11 /r"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg8, reg/mem8",
+					"opcode": "12 /r"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "13 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "13 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "13 /r"
+				}
+			],
+			"name": "ADC",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "66 0F 38 F6 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "66 0F 38 F6 /r"
+				}
+			],
+			"name": "ADCX",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "AL, imm8",
+					"opcode": "04 ib"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "AX, imm16",
+					"opcode": "05 iw"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "EAX, imm32",
+					"opcode": "05 id"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "RAX, imm32",
+					"opcode": "05 id"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem8, imm8",
+					"opcode": "80 /0 ib"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16, imm16",
+					"opcode": "81 /0 iw"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32, imm32",
+					"opcode": "81 /0 id"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64, imm32",
+					"opcode": "81 /0 id"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16, imm8",
+					"opcode": "83 /0 ib"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32, imm8",
+					"opcode": "83 /0 ib"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64, imm8",
+					"opcode": "83 /0 ib"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem8, reg8",
+					"opcode": "00 /r"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16, reg16",
+					"opcode": "01 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32, reg32",
+					"opcode": "01 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64, reg64",
+					"opcode": "01 /r"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg8, reg/mem8",
+					"opcode": "02 /r"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "03 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "03 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "03 /r"
+				}
+			],
+			"name": "ADD",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "F3 0F 38 F6 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "F3 0F 38 F6 /r"
+				}
+			],
+			"name": "ADOX",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "AL, imm8",
+					"opcode": "24 ib"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "AX, imm16",
+					"opcode": "25 iw"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "EAX, imm32",
+					"opcode": "25 id"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "RAX, imm32",
+					"opcode": "25 id"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem8, imm8",
+					"opcode": "80 /4 ib"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16, imm16",
+					"opcode": "81 /4 iw"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32, imm32",
+					"opcode": "81 /4 id"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64, imm32",
+					"opcode": "81 /4 id"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16, imm8",
+					"opcode": "83 /4 ib"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32, imm8",
+					"opcode": "83 /4 ib"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64, imm8",
+					"opcode": "83 /4 ib"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem8, reg8",
+					"opcode": "20 /r"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16, reg16",
+					"opcode": "21 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32, reg32",
+					"opcode": "21 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64, reg64",
+					"opcode": "21 /r"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg8, reg/mem8",
+					"opcode": "22 /r"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "23 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "23 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "23 /r"
+				}
+			],
+			"name": "AND",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 32, 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.02",
+						"vex": "C4",
+						"WvvvvLpp": "0.src1.0.00"
+					},
+					"mnemonic": "reg32, reg32, reg/mem32",
+					"opcode": "F2 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.02",
+						"vex": "C4",
+						"WvvvvLpp": "1.src1.0.00"
+					},
+					"mnemonic": "reg64, reg64, reg/mem64",
+					"opcode": "F2 /r"
+				}
+			],
+			"name": "ANDN",
+			"syntax": "dest, src1, src2"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 32, 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.02",
+						"vex": "C4",
+						"WvvvvLpp": "0.cntl.0.00"
+					},
+					"mnemonic": "reg32, reg/mem32, reg32",
+					"opcode": "F7 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.02",
+						"vex": "C4",
+						"WvvvvLpp": "1.cntl.0.00"
+					},
+					"mnemonic": "reg32, reg/mem32, reg32",
+					"opcode": "F7 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.0A",
+						"WvvvvLpp": "0.1111.0.00",
+						"xop": "8F"
+					},
+					"mnemonic": "reg32, reg/mem32, imm32",
+					"opcode": "10 /r id"
+				},
+				{
+					"bits": [ 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.0A",
+						"WvvvvLpp": "1.1111.0.00",
+						"xop": "8F"
+					},
+					"mnemonic": "reg64, reg/mem64, imm32",
+					"opcode": "10 /r id"
+				}
+			],
+			"name": "BEXTR",
+			"syntax": "dest, src, cntl"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 32, 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.09",
+						"WvvvvLpp": "0.dest.0.00",
+						"xop": "8F"
+					},
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "01 /1"
+				},
+				{
+					"bits": [ 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.09",
+						"WvvvvLpp": "1.dest.0.00",
+						"xop": "8F"
+					},
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "01 /1"
+				}
+			],
+			"name": "BLCFILL",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 32, 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.09",
+						"WvvvvLpp": "0.dest.0.00",
+						"xop": "8F"
+					},
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "02 /6"
+				},
+				{
+					"bits": [ 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.09",
+						"WvvvvLpp": "1.dest.0.00",
+						"xop": "8F"
+					},
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "02 /6"
+				}
+			],
+			"name": "BLCI",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 32, 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.09",
+						"WvvvvLpp": "0.dest.0.00",
+						"xop": "8F"
+					},
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "01 /5"
+				},
+				{
+					"bits": [ 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.09",
+						"WvvvvLpp": "1.dest.0.00",
+						"xop": "8F"
+					},
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "01 /5"
+				}
+			],
+			"name": "BLCIC",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 32, 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.09",
+						"WvvvvLpp": "0.dest.0.00",
+						"xop": "8F"
+					},
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "02 /1"
+				},
+				{
+					"bits": [ 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.09",
+						"WvvvvLpp": "1.dest.0.00",
+						"xop": "8F"
+					},
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "02 /1"
+				}
+			],
+			"name": "BLCMSK",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 32, 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.09",
+						"WvvvvLpp": "0.dest.0.00",
+						"xop": "8F"
+					},
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "01 /3"
+				},
+				{
+					"bits": [ 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.09",
+						"WvvvvLpp": "1.dest.0.00",
+						"xop": "8F"
+					},
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "01 /3"
+				}
+			],
+			"name": "BLCS",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 32, 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.09",
+						"WvvvvLpp": "0.dest.0.00",
+						"xop": "8F"
+					},
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "01 /2"
+				},
+				{
+					"bits": [ 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.09",
+						"WvvvvLpp": "1.dest.0.00",
+						"xop": "8F"
+					},
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "01 /2"
+				}
+			],
+			"name": "BLSFILL",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 32, 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.02",
+						"vex": "C4",
+						"WvvvvLpp": "0.dest.0.00"
+					},
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "F3 /3"
+				},
+				{
+					"bits": [ 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.02",
+						"vex": "C4",
+						"WvvvvLpp": "1.dest.0.00"
+					},
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "F3 /3"
+				}
+			],
+			"name": "BLSI",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 32, 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.09",
+						"WvvvvLpp": "0.dest.0.00",
+						"xop": "8F"
+					},
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "01 /6"
+				},
+				{
+					"bits": [ 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.09",
+						"WvvvvLpp": "1.dest.0.00",
+						"xop": "8F"
+					},
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "01 /6"
+				}
+			],
+			"name": "BLSIC",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 32, 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.02",
+						"vex": "C4",
+						"WvvvvLpp": "0.dest.0.00"
+					},
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "F3 /2"
+				},
+				{
+					"bits": [ 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.02",
+						"vex": "C4",
+						"WvvvvLpp": "1.dest.0.00"
+					},
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "F3 /2"
+				}
+			],
+			"name": "BLSMSK",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 32, 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.02",
+						"vex": "C4",
+						"WvvvvLpp": "0.dest.0.00"
+					},
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "F3 /1"
+				},
+				{
+					"bits": [ 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.02",
+						"vex": "C4",
+						"WvvvvLpp": "1.dest.0.00"
+					},
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "F3 /1"
+				}
+			],
+			"name": "BLSR",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32 ],
+					"mnemonic": "reg16, mem16&mem16",
+					"opcode": "62 /r"
+				},
+				{
+					"bits": [ 32 ],
+					"mnemonic": "reg32, mem32&mem32",
+					"opcode": "62 /r"
+				}
+			],
+			"name": "BOUND",
+			"syntax": "dest, bounds"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F BC /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F BC /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F BC /r"
+				}
+			],
+			"name": "BSF",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F BD /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F BD /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F BD /r"
+				}
+			],
+			"name": "BSR",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32",
+					"opcode": "0F C8 +rd"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64",
+					"opcode": "0F C8 +rq"
+				}
+			],
+			"name": "BSWAP",
+			"syntax": "reg"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16, reg16",
+					"opcode": "0F A3 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32, reg32",
+					"opcode": "0F A3 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64, reg64",
+					"opcode": "0F A3 /r"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16, imm8",
+					"opcode": "0F BA /4 ib"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32, imm8",
+					"opcode": "0F BA /4 ib"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64, imm8",
+					"opcode": "0F BA /4 ib"
+				}
+			],
+			"name": "BT",
+			"syntax": "src, bit"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16, reg16",
+					"opcode": "0F BB /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32, reg32",
+					"opcode": "0F BB /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64, reg64",
+					"opcode": "0F BB /r"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16, imm8",
+					"opcode": "0F BA /7 ib"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32, imm8",
+					"opcode": "0F BA /7 ib"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64, imm8",
+					"opcode": "0F BA /7 ib"
+				}
+			],
+			"name": "BTC",
+			"syntax": "src, bit"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16, reg16",
+					"opcode": "0F B3 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32, reg32",
+					"opcode": "0F B3 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64, reg64",
+					"opcode": "0F B3 /r"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16, imm8",
+					"opcode": "0F BA /6 ib"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32, imm8",
+					"opcode": "0F BA /6 ib"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64, imm8",
+					"opcode": "0F BA /6 ib"
+				}
+			],
+			"name": "BTR",
+			"syntax": "src, bit"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16, reg16",
+					"opcode": "0F AB /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32, reg32",
+					"opcode": "0F AB /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64, reg64",
+					"opcode": "0F AB /r"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16, imm8",
+					"opcode": "0F BA /5 ib"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32, imm8",
+					"opcode": "0F BA /5 ib"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64, imm8",
+					"opcode": "0F BA /5 ib"
+				}
+			],
+			"name": "BTS",
+			"syntax": "src, bit"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 32, 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.02",
+						"vex": "C4",
+						"WvvvvLpp": "0.index.0.00"
+					},
+					"mnemonic": "reg32, reg/mem32, reg32",
+					"opcode": "F5 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"encoding": {
+						"RXBmap_select": "RXB.02",
+						"vex": "C4",
+						"WvvvvLpp": "1.index.0.00"
+					},
+					"mnemonic": "reg64, reg/mem64, reg64",
+					"opcode": "F5 /r"
+				}
+			],
+			"name": "BZHI",
+			"syntax": "dest, src, index"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "rel16off",
+					"opcode": "E8 iw"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "rel32off",
+					"opcode": "E8 id"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16",
+					"opcode": "FF /2"
+				},
+				{
+					"bits": [ 32 ],
+					"mnemonic": "reg/mem32",
+					"opcode": "FF /2"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64",
+					"opcode": "FF /2"
+				},
+				{
+					"bits": [ 16, 32 ],
+					"mnemonic": "FAR pntr16:16",
+					"opcode": "9A cd"
+				},
+				{
+					"bits": [ 32 ],
+					"mnemonic": "FAR pntr16:32",
+					"opcode": "9A cp"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "FAR mem16:16",
+					"opcode": "FF /3"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "FAR mem16:32",
+					"opcode": "FF /3"
+				}
+			],
+			"name": "CALL",
+			"syntax": "offset"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "",
+					"opcode": "98"
+				}
+			],
+			"name": "CBW",
+			"syntax": ""
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "",
+					"opcode": "98"
+				}
+			],
+			"name": "CBDE",
+			"syntax": ""
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 64 ],
+					"mnemonic": "",
+					"opcode": "98"
+				}
+			],
+			"name": "CBQE",
+			"syntax": ""
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "",
+					"opcode": "99"
+				}
+			],
+			"name": "CWD",
+			"syntax": ""
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "",
+					"opcode": "99"
+				}
+			],
+			"name": "CDQ",
+			"syntax": ""
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 64 ],
+					"mnemonic": "",
+					"opcode": "99"
+				}
+			],
+			"name": "CQO",
+			"syntax": ""
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "",
+					"opcode": "FC"
+				}
+			],
+			"name": "CLD",
+			"syntax": ""
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "mem8",
+					"opcode": "0F AE /7"
+				}
+			],
+			"name": "CLFLUSH",
+			"syntax": "addr"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "mem8",
+					"opcode": "66 0F AE /7"
+				}
+			],
+			"name": "CLFLUSHOPT",
+			"syntax": "addr"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "",
+					"opcode": "66 0F AE /6"
+				}
+			],
+			"name": "CLWB",
+			"syntax": ""
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 64 ],
+					"mnemonic": "rAX",
+					"opcode": "0F 01 FC"
+				}
+			],
+			"name": "CLZERO",
+			"syntax": "addr"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "",
+					"opcode": "F5"
+				}
+			],
+			"name": "CMC",
+			"syntax": ""
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 40 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 40 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 40 /r"
+				}
+			],
+			"name": "CMOVO",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 41 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 41 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 41 /r"
+				}
+			],
+			"name": "CMOVNO",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 42 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 42 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 42 /r"
+				}
+			],
+			"name": "CMOVB",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 42 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 42 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 42 /r"
+				}
+			],
+			"name": "CMOVC",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 42 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 42 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 42 /r"
+				}
+			],
+			"name": "CMOVNAE",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 43 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 43 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 43 /r"
+				}
+			],
+			"name": "CMOVNB",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 43 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 43 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 43 /r"
+				}
+			],
+			"name": "CMOVNC",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 43 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 43 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 43 /r"
+				}
+			],
+			"name": "CMOVAE",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 44 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 44 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 44 /r"
+				}
+			],
+			"name": "CMOVZ",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 44 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 44 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 44 /r"
+				}
+			],
+			"name": "CMOVE",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 45 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 45 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 45 /r"
+				}
+			],
+			"name": "CMOVNZ",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 45 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 45 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 45 /r"
+				}
+			],
+			"name": "CMOVNE",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 46 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 46 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 46 /r"
+				}
+			],
+			"name": "CMOVBE",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 46 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 46 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 46 /r"
+				}
+			],
+			"name": "CMOVNA",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 47 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 47 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 47 /r"
+				}
+			],
+			"name": "CMOVNBE",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 47 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 47 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 47 /r"
+				}
+			],
+			"name": "CMOVA",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 48 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 48 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 48 /r"
+				}
+			],
+			"name": "CMOVS",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 49 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 49 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 49 /r"
+				}
+			],
+			"name": "CMOVNS",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 4A /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 4A /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 4A /r"
+				}
+			],
+			"name": "CMOVP",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 4A /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 4A /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 4A /r"
+				}
+			],
+			"name": "CMOVPE",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 4B /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 4B /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 4B /r"
+				}
+			],
+			"name": "CMOVNP",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 4B /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 4B /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 4B /r"
+				}
+			],
+			"name": "CMOVPO",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 4C /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 4C /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 4C /r"
+				}
+			],
+			"name": "CMOVL",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 4C /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 4C /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 4C /r"
+				}
+			],
+			"name": "CMOVNGE",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 4D /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 4D /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 4D /r"
+				}
+			],
+			"name": "CMOVNL",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 4D /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 4D /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 4D /r"
+				}
+			],
+			"name": "CMOVGE",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 4E /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 4E /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 4E /r"
+				}
+			],
+			"name": "CMOVLE",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 4E /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 4E /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 4E /r"
+				}
+			],
+			"name": "CMOVNG",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 4F /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 4F /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 4F /r"
+				}
+			],
+			"name": "CMOVNLE",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F 4F /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "0F 4F /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "0F 4F /r"
+				}
+			],
+			"name": "CMOVG",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "AL, imm8",
+					"opcode": "3C ib"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "AX, imm16",
+					"opcode": "3D iw"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "EAX, imm32",
+					"opcode": "3D id"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "RAX, imm32",
+					"opcode": "3D id"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem8, imm8",
+					"opcode": "80 /7 ib"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16, imm16",
+					"opcode": "81 /7 iw"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32, imm32",
+					"opcode": "81 /7 id"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64, imm32",
+					"opcode": "81 /7 id"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16, imm8",
+					"opcode": "83 /7 ib"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32, imm8",
+					"opcode": "83 /7 ib"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64, imm8",
+					"opcode": "83 /7 ib"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem8, reg8",
+					"opcode": "38 /r"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16, reg16",
+					"opcode": "39 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32, reg32",
+					"opcode": "39 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64, reg64",
+					"opcode": "39 /r"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg8, reg/mem8",
+					"opcode": "3A /r"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "3B /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "3B /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "3B /r"
+				}
+			],
+			"name": "CMP",
+			"syntax": "a, b"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "mem8, mem8",
+					"opcode": "A6"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "mem16, mem16",
+					"opcode": "A7"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "mem32, mem32",
+					"opcode": "A7"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "mem64, mem64",
+					"opcode": "A7"
+				}
+			],
+			"name": "CMPS",
+			"syntax": "a, b"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "",
+					"opcode": "A6"
+				}
+			],
+			"name": "CMPSB",
+			"syntax": ""
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "",
+					"opcode": "A7"
+				}
+			],
+			"name": "CMPSW",
+			"syntax": ""
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "",
+					"opcode": "A7"
+				}
+			],
+			"name": "CMPSD",
+			"syntax": ""
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 64 ],
+					"mnemonic": "",
+					"opcode": "A7"
+				}
+			],
+			"name": "CMPSQ",
+			"syntax": ""
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem8, reg8",
+					"opcode": "0F B0 /r"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16, reg16",
+					"opcode": "0F B1 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32, reg32",
+					"opcode": "0F B1 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64, reg64",
+					"opcode": "0F B1 /r"
+				}
+			],
+			"name": "CMPXCHG",
+			"syntax": "a, b"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 64 ],
+					"mnemonic": "mem64",
+					"opcode": "0F C7 /1 m64"
+				}
+			],
+			"name": "CMPXCHG8B",
+			"syntax": "value"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 64 ],
+					"mnemonic": "mem128",
+					"opcode": "0F C7 /1 m128"
+				}
+			],
+			"name": "CMPXCHG16B",
+			"syntax": "value"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "",
+					"opcode": "0F A2"
+				}
+			],
+			"name": "CPUID",
+			"syntax": ""
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem8",
+					"opcode": "F2 0F 38 F0 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem8",
+					"opcode": "F2 REX 0F 38 F0 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem16",
+					"opcode": "F2 0F 38 F1 /r"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg32, reg/mem32",
+					"opcode": "F2 0F 38 F1 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem8",
+					"opcode": "F2 REX.W=1 0F 38 F0 /r"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg64, reg/mem64",
+					"opcode": "F2 REX.W=1 0F 38 F1 /r"
+				}
+			],
+			"name": "CRC32",
+			"syntax": "dest, src"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32 ],
+					"mnemonic": "",
+					"opcode": "27"
+				}
+			],
+			"name": "DAA",
+			"syntax": ""
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32 ],
+					"mnemonic": "",
+					"opcode": "2F"
+				}
+			],
+			"name": "DAS",
+			"syntax": ""
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem8",
+					"opcode": "FE /1"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16",
+					"opcode": "FF /1"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32",
+					"opcode": "FF /1"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64",
+					"opcode": "FF /1"
+				},
+				{
+					"bits": [ 16, 32 ],
+					"mnemonic": "reg16",
+					"opcode": "48 +rw"
+				},
+				{
+					"bits": [ 32 ],
+					"mnemonic": "reg32",
+					"opcode": "48 +rd"
+				}
+			],
+			"name": "DEC",
+			"syntax": "value"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem8",
+					"opcode": "F6 /6"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16",
+					"opcode": "F7 /6"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32",
+					"opcode": "F7 /6"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64",
+					"opcode": "F7 /6"
+				}
+			],
+			"name": "DIV",
+			"syntax": "value"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "imm16, imm8",
+					"opcode": "C8 iw ib"
+				}
+			],
+			"name": "ENTER",
+			"syntax": "size, nest"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem8",
+					"opcode": "F6 /7"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16",
+					"opcode": "F7 /7"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32",
+					"opcode": "F7 /7"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64",
+					"opcode": "F7 /7"
+				}
+			],
+			"name": "IDIV",
+			"syntax": "value"
+		},
+		{
+			"instructions": [
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem8",
+					"opcode": "F6 /5"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg/mem16",
+					"opcode": "F7 /5"
+				},
+				{
+					"bits": [ 32, 64 ],
+					"mnemonic": "reg/mem32",
+					"opcode": "F7 /5"
+				},
+				{
+					"bits": [ 64 ],
+					"mnemonic": "reg/mem64",
+					"opcode": "F7 /5"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F AF /r"
+				},
+				{
+					"bits": [ 16, 32, 64 ],
+					"mnemonic": "reg16, reg/mem16",
+					"opcode": "0F AF /r"
+				}
+			],
+			"name": "IMUL",
+			"syntax": "value"
+		}
+	]
+}

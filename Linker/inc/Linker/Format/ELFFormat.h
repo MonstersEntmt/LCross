@@ -2,6 +2,6 @@
 
 #include "Linker/Linker.h"
 
-namespace Formats::ELF {
-	LinkerError link(const LinkerOptions& options, ByteBuffer& bytecode);
+namespace Linker::ELF {
+	LinkerError link(LinkerState& state, ByteBuffer& bytecode);
 }

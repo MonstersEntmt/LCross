@@ -1,9 +1,11 @@
 #pragma once
 
-#include <string>
-#include <vector>
-#include <unordered_map>
+#include "Format/Format.h"
+
 #include <functional>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 enum class FlagValueType {
 	REQUIRED,
@@ -23,12 +25,16 @@ struct FlagInfo {
 	FlagInfo(const std::string& name, const std::string& desc, const std::string& note, const std::vector<FlagValueInfo>& values);
 
 	std::string getSyntax() const;
-	friend std::ostream& operator<<(std::ostream& ostream, const FlagInfo& flagInfo);
 
 	std::string name;
 	std::string desc;
 	std::string note;
 	std::vector<FlagValueInfo> values;
+};
+
+template <>
+struct Format::Formatter<FlagInfo> {
+	std::string format(const FlagInfo& flagInfo, const std::string& options);
 };
 
 class ArgUtils {
@@ -53,7 +59,7 @@ public:
 	void handle();
 
 protected:
-	virtual void handleVirt() {}
+	virtual void handleVirt() { }
 
 public: // Passed Arg Data
 	std::vector<std::string> inputNames;

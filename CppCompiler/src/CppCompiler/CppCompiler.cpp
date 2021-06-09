@@ -74,18 +74,18 @@ void CppCompilerArgUtils::handleVersionFlag(ArgUtils & argUtils, const std::stri
 #ifdef _NO_ASSEMBLER_
 void CppCompilerArgUtils::handleArchFlag(ArgUtils & argUtils, const std::string & arg, const std::vector<std::string>&argValues, size_t & usedValueCount, bool& argFailed) {
 	std::string argValue = argValues[0];
-	if (argValue == "default") this->outputArch = Arch::DEFAULT;
+	if (argValue == "default") this->outputArch = OutputArch::DEFAULT;
 #if _TARGETS_X86_64_
-	else if (argValue == "x86") this->outputArch = Arch::X86;
+	else if (argValue == "x86") this->outputArch = OutputArch::X86;
 #endif
 #if _TARGETS_X86_64_
-	else if (argValue == "x86_64") this->outputArch = Arch::X86_64;
+	else if (argValue == "x86_64") this->outputArch = OutputArch::X86_64;
 #endif
 #if _TARGETS_ARM32_
-	else if (argValue == "arm32") this->outputArch = Arch::ARM32;
+	else if (argValue == "arm32") this->outputArch = OutputArch::ARM32;
 #endif
 #if _TARGETS_ARM64_
-	else if (argValue == "arm64") this->outputArch = Arch::ARM64;
+	else if (argValue == "arm64") this->outputArch = OutputArch::ARM64;
 #endif
 	usedValueCount = 1;
 }
@@ -101,7 +101,7 @@ void CppCompilerArgUtils::handleOutputName() {
 
 #ifdef _NO_ASSEMBLER_
 void CppCompilerArgUtils::handleVirt() {
-	if (this->outputArch == Arch::DEFAULT)
+	if (this->outputArch == OutputArch::DEFAULT)
 		this->outputArch = getDefaultCompileArchForHost();
 }
 #endif

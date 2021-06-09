@@ -2,6 +2,6 @@
 
 #include "Assembler/Assembler.h"
 
-namespace Archs::Arm32 {
-	AssemblerError assemble(const AssemblerOptions& options, const std::vector<std::string>& instruction, ByteBuffer& bytes);
+namespace Assembler::Arm32 {
+	AssemblerError assemble(AssemblerState& state, LineInfo& lineInfo, const std::vector<std::string>& instruction);
 }

@@ -1,10 +1,10 @@
 #include <Core.h>
 #if _TARGETS_PE_
-#include "Linker/Linker.h"
+	#include "Linker/Linker.h"
 
-namespace Formats::PE {
-	LinkerError link(const LinkerOptions& options, ByteBuffer& bytecode) {
+namespace Linker::PE {
+	LinkerError link(LinkerState& state, ByteBuffer& bytecode) {
 		return LinkerError::NOT_IMPLEMENTED;
 	}
-}
+} // namespace Linker::PE
 #endif

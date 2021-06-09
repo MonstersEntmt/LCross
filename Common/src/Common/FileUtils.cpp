@@ -102,9 +102,11 @@ namespace FileUtils {
 			if (nameOffset == nameOffsets.end()) throw std::exception("Symbol name was not found in offsets!");
 			outBytes.addUInt64(nameOffset->second);    // Offset of name from start of Name Table
 			outBytes.addUInt32((uint32_t) sym.type);   // Type of symbol
+			outBytes.addUInt8((uint8_t) sym.state);    // State of the symbol
 			outBytes.addUInt64(sym.sectionIndex);      // Index of section in Section Table where this symbol is located
 			outBytes.addUInt64(sym.sectionByteOffset); // The offset from the start of the Section's bytes
 			outBytes.addUInt64(sym.sectionByteLength); // The length of data
+			outBytes.addUInt64(sym.originAddress);     // The origin address of the symbol
 		}
 		// End Symbol Table.
 
@@ -147,7 +149,7 @@ namespace FileUtils {
 	bool readLCO(const std::string& filename, LCO& lco) {
 		ByteBuffer inBytes;
 		readFileBinary(filename, inBytes);
-		lco.outputArch = Arch::DEFAULT;
+		lco.outputArch = OutputArch::DEFAULT;
 		lco.symbols.clear();
 		lco.symbolAddrs.clear();
 		lco.sections.clear();
@@ -160,7 +162,7 @@ namespace FileUtils {
 		uint64_t lcoFormatVersion = inBytes.getUInt64(); // LCO Format Version
 		switch (lcoFormatVersion) {
 		case 1: {
-			lco.outputArch = (Arch) inBytes.getUInt32(); // Output Architecture
+			lco.outputArch = (OutputArch) inBytes.getUInt32(); // Output Architecture
 			// End Header.
 
 			// Name Table:
@@ -176,9 +178,11 @@ namespace FileUtils {
 				Symbol& sym           = lco.symbols[i];
 				sym.name              = nameBytes.getString(inBytes.getUInt64()); // Offset of name from start of Name Table
 				sym.type              = (SymbolType) inBytes.getUInt32();         // Type of symbol
+				sym.state             = (SymbolState) inBytes.getUInt8();         // State of symbol
 				sym.sectionIndex      = inBytes.getUInt64();                      // Index of section in Section Table where this symbol is located
 				sym.sectionByteOffset = inBytes.getUInt64();                      // The offset from the start of the Section's bytes
 				sym.sectionByteLength = inBytes.getUInt64();                      // The length of data
+				sym.originAddress     = inBytes.getUInt64();                      // The Origin address of symbol
 			}
 			// End Symbol Table.
 

@@ -1,19 +1,19 @@
 #pragma once
 
+#include <iostream>
 #include <stdint.h>
 #include <string>
-#include <iostream>
 
 namespace PrintUtils {
 	enum class ANSIColor : uint8_t {
-		BLACK = 0,
-		RED = 1,
-		GREEN = 2,
-		YELLOW = 3,
-		BLUE = 4,
+		BLACK   = 0,
+		RED     = 1,
+		GREEN   = 2,
+		YELLOW  = 3,
+		BLUE    = 4,
 		MAGENTA = 5,
-		CYAN = 6,
-		WHITE = 7
+		CYAN    = 6,
+		WHITE   = 7
 	};
 
 	void setupAnsi();
@@ -42,7 +42,6 @@ namespace PrintUtils {
 	std::ostream& appUsage(std::ostream& ostream);
 	std::ostream& appHelp(std::ostream& ostream);
 	std::ostream& normal(std::ostream& ostream);
-	std::ostream& appVersion(std::ostream& ostream);
-	extern std::ostream& appName(std::ostream& ostream);
-	extern std::ostream& appVersionInfo(std::ostream& ostream);
-}
+	extern std::string appName();
+	extern std::string appVersion();
+} // namespace PrintUtils

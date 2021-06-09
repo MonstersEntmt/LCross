@@ -31,7 +31,7 @@ public:
 
 public: // Passed Arg Data
 #ifdef _NO_ASSEMBLER_
-	Arch outputArch = Arch::DEFAULT;
+	OutputArch outputArch = OutputArch::DEFAULT;
 #endif
 };
 
@@ -44,7 +44,7 @@ std::ostream& operator<<(std::ostream& ostream, CppCompilerError error);
 
 struct CppCompilerOptions {
 	bool verbose = false;
-	Arch outputArch = Arch::DEFAULT;
+	OutputArch outputArch = OutputArch::DEFAULT;
 };
 
 namespace CppCompiler {

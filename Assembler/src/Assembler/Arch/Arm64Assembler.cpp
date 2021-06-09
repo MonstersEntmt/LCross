@@ -1,9 +1,9 @@
 #include <Core.h>
 #if _TARGETS_ARM64_
-#include "Assembler/Arch/X86_64Assembler.h"
+#include "Assembler/Arch/Arm64Assembler.h"
 
-namespace Archs::Arm64 {
-	AssemblerError assemble(const AssemblerOptions& options, const std::vector<std::string>& instruction, ByteBuffer& bytes) {
+namespace Assembler::Arm64 {
+	AssemblerError assemble(AssemblerState& state, LineInfo& lineInfo, const std::vector<std::string>& instruction) {
 		return AssemblerError::NOT_IMPLEMENTED;
 	}
 }

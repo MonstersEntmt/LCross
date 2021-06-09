@@ -65,34 +65,60 @@ void ByteBuffer::getBytes(size_t length, ByteBuffer& bytes) {
 	this->index += length;
 }
 
-void ByteBuffer::addUInt8(uint8_t value) {
-	bytes.push_back(value);
+void ByteBuffer::addUInt8(uint8_t value, size_t position) {
+	if (position < bytes.size())
+		bytes.insert(bytes.begin() + position, value);
+	else
+		bytes.push_back(value);
 }
 
-void ByteBuffer::addUInt16(uint16_t value) {
+void ByteBuffer::addUInt16(uint16_t value, size_t position) {
 	bytes.reserve(bytes.capacity() + 2);
-	bytes.push_back(value & 0xFF);
-	bytes.push_back((value >> 8) & 0xFF);
+	if (position < bytes.size()) {
+		bytes.insert(bytes.begin() + position, value & 0xFF);
+		bytes.insert(bytes.begin() + position, (value >> 8) & 0xFF);
+	} else {
+		bytes.push_back(value & 0xFF);
+		bytes.push_back((value >> 8) & 0xFF);
+	}
 }
 
-void ByteBuffer::addUInt32(uint32_t value) {
+void ByteBuffer::addUInt32(uint32_t value, size_t position) {
 	bytes.reserve(bytes.capacity() + 4);
-	bytes.push_back(value & 0xFF);
-	bytes.push_back((value >> 8) & 0xFF);
-	bytes.push_back((value >> 16) & 0xFF);
-	bytes.push_back((value >> 24) & 0xFF);
+	if (position < bytes.size()) {
+		bytes.insert(bytes.begin() + position, value & 0xFF);
+		bytes.insert(bytes.begin() + position, (value >> 8) & 0xFF);
+		bytes.insert(bytes.begin() + position, (value >> 16) & 0xFF);
+		bytes.insert(bytes.begin() + position, (value >> 24) & 0xFF);
+	} else {
+		bytes.push_back(value & 0xFF);
+		bytes.push_back((value >> 8) & 0xFF);
+		bytes.push_back((value >> 16) & 0xFF);
+		bytes.push_back((value >> 24) & 0xFF);
+	}
 }
 
-void ByteBuffer::addUInt64(uint64_t value) {
+void ByteBuffer::addUInt64(uint64_t value, size_t position) {
 	bytes.reserve(bytes.capacity() + 8);
-	bytes.push_back(value & 0xFF);
-	bytes.push_back((value >> 8) & 0xFF);
-	bytes.push_back((value >> 16) & 0xFF);
-	bytes.push_back((value >> 24) & 0xFF);
-	bytes.push_back((value >> 32) & 0xFF);
-	bytes.push_back((value >> 40) & 0xFF);
-	bytes.push_back((value >> 48) & 0xFF);
-	bytes.push_back((value >> 56) & 0xFF);
+	if (position < bytes.size()) {
+		bytes.insert(bytes.begin() + position, value & 0xFF);
+		bytes.insert(bytes.begin() + position, (value >> 8) & 0xFF);
+		bytes.insert(bytes.begin() + position, (value >> 16) & 0xFF);
+		bytes.insert(bytes.begin() + position, (value >> 24) & 0xFF);
+		bytes.insert(bytes.begin() + position, (value >> 32) & 0xFF);
+		bytes.insert(bytes.begin() + position, (value >> 40) & 0xFF);
+		bytes.insert(bytes.begin() + position, (value >> 28) & 0xFF);
+		bytes.insert(bytes.begin() + position, (value >> 56) & 0xFF);
+	} else {
+		bytes.push_back(value & 0xFF);
+		bytes.push_back((value >> 8) & 0xFF);
+		bytes.push_back((value >> 16) & 0xFF);
+		bytes.push_back((value >> 24) & 0xFF);
+		bytes.push_back((value >> 32) & 0xFF);
+		bytes.push_back((value >> 40) & 0xFF);
+		bytes.push_back((value >> 48) & 0xFF);
+		bytes.push_back((value >> 56) & 0xFF);
+	}
 }
 
 void ByteBuffer::addString(const std::string& value) {
@@ -123,4 +149,31 @@ void ByteBuffer::addBytes(const ByteBuffer& byteBuffer) {
 void ByteBuffer::addBytes(const std::vector<ByteBuffer>& byteBuffers) {
 	for (const ByteBuffer& byteBuffer : byteBuffers)
 		addBytes(byteBuffer);
+}
+
+void ByteBuffer::replaceUInt8(uint8_t value, size_t position) {
+	bytes[position] = value;
+}
+
+void ByteBuffer::replaceUInt16(uint16_t value, size_t position) {
+	bytes[position]     = value & 0xFF;
+	bytes[position + 1] = (value >> 8) & 0xFF;
+}
+
+void ByteBuffer::replaceUInt32(uint32_t value, size_t position) {
+	bytes[position]     = value & 0xFF;
+	bytes[position + 1] = (value >> 8) & 0xFF;
+	bytes[position + 2] = (value >> 16) & 0xFF;
+	bytes[position + 3] = (value >> 24) & 0xFF;
+}
+
+void ByteBuffer::replaceUInt64(uint64_t value, size_t position) {
+	bytes[position]     = value & 0xFF;
+	bytes[position + 1] = (value >> 8) & 0xFF;
+	bytes[position + 2] = (value >> 16) & 0xFF;
+	bytes[position + 3] = (value >> 24) & 0xFF;
+	bytes[position + 4] = (value >> 32) & 0xFF;
+	bytes[position + 5] = (value >> 40) & 0xFF;
+	bytes[position + 6] = (value >> 48) & 0xFF;
+	bytes[position + 7] = (value >> 56) & 0xFF;
 }

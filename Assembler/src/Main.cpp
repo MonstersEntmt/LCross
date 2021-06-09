@@ -1,17 +1,18 @@
 #include "Assembler/Assembler.h"
 
 #include <Common/FileUtils.h>
+#include <Common/Logger.h>
 #include <Common/PrintUtils.h>
 
 namespace PrintUtils {
-	std::ostream& appName(std::ostream& ostream) { return ostream << "LASM"; }
-	std::ostream& appVersionInfo(std::ostream& ostream) {
-		return ostream;
-	}
+	std::string appName() { return "LASM"; }
+	std::string appVersion() { return "0.1.0"; }
 } // namespace PrintUtils
 
 int main(int argc, char** argv) {
+#ifdef EXCEPTION_HANDLING
 	try {
+#endif
 		PrintUtils::setupAnsi();
 		AssemblerArgUtils argUtils(argc, argv);
 		argUtils.handle();
@@ -22,20 +23,18 @@ int main(int argc, char** argv) {
 
 #ifndef _NO_LINKER_
 			if (!argUtils.noLink)
-				std::cout << PrintUtils::appInfo << "Current output format is " << PrintUtils::colorSchemeArg << argUtils.outputFormat << PrintUtils::normal << std::endl;
+				Logger::log(LogSeverity::Info, "Current output format is {}'{}'{}", LogColors::Arg, argUtils.outputFormat, LogColors::Info);
 #endif
-			std::cout << PrintUtils::appInfo << "Current output arch is " << PrintUtils::colorSchemeArg << argUtils.outputArch << PrintUtils::normal << std::endl;
-			std::cout << PrintUtils::appInfo << "Current output filename is " << PrintUtils::colorSchemeArg << "'" << argUtils.outputName << "'" << PrintUtils::normal << std::endl;
+			Logger::log(LogSeverity::Info, "Current output arch is {}'{}'{}", LogColors::Arg, argUtils.outputArch, LogColors::Info);
+			Logger::log(LogSeverity::Info, "Current output filename is {}'{}'{}", LogColors::Arg, argUtils.outputName, LogColors::Info);
 
 			auto& inputNames = argUtils.inputNames;
 			if (inputNames.size() > 1) {
-				std::cout << PrintUtils::appInfo << "Current input filenames are:" << PrintUtils::colorSchemeArg;
+				Logger::log(LogSeverity::Info, "Current input filenames are:");
 				for (size_t i = 0; i < inputNames.size(); i++)
-					std::cout << std::endl
-					          << "    '" << inputNames[i] << "'";
-				std::cout << PrintUtils::normal;
+					Logger::print("{}    '{}'", LogColors::Arg, inputNames[i]);
 			} else {
-				std::cout << PrintUtils::appInfo << "Current input filename is " << PrintUtils::colorSchemeArg << "'" << inputNames[0] << "'" << PrintUtils::normal << std::endl;
+				Logger::log(LogSeverity::Info, "Current input filename is {}'{}'{}", LogColors::Arg, inputNames[0], LogColors::Info);
 			}
 		}
 
@@ -43,77 +42,74 @@ int main(int argc, char** argv) {
 		const std::string& outputName = argUtils.outputName;
 		FileUtils::deleteFile(outputName);
 
-		AssemblerOptions assemblerOptions;
-		assemblerOptions.outputArch = argUtils.outputArch;
-		assemblerOptions.verbose    = argUtils.verbose;
-
-#ifdef _NO_LINKER_
-		std::string fileContent;
-		FileUtils::readFile(inputNames[0], fileContent);
-		LCO lco;
-		AssemblerError error = Assembler::assemble(assemblerOptions, fileContent, lco);
-		if (error != AssemblerError::GOOD) {
-			std::cout << PrintUtils::appError << "Assembler failed with error " << PrintUtils::colorSchemeArg << "'" << error << "'" << PrintUtils::colorSchemeError << "!" << PrintUtils::normal << std::endl;
-			PrintUtils::restoreAnsi();
-			return EXIT_FAILURE;
-		}
-		FileUtils::writeLCO(outputName, lco);
-
-		if (argUtils.verbose)
-			std::cout << PrintUtils::appInfo << "Assembler succeeded" << PrintUtils::normal << std::endl;
-#else
+#ifndef _NO_LINKER_
 		if (argUtils.noLink) {
+#endif
+			Assembler::AssemblerState assemblerState;
+			assemblerState.options.outputArch = argUtils.outputArch;
+			assemblerState.options.verbose    = argUtils.verbose;
+
 			std::string fileContent;
 			FileUtils::readFile(inputNames[0], fileContent);
+			fileContent = "#line 0, " + inputNames[0] + "\n" + fileContent;
 			LCO lco;
-			AssemblerError error = Assembler::assemble(assemblerOptions, fileContent, lco);
+			AssemblerError error = Assembler::assemble(assemblerState, fileContent, lco);
 			if (error != AssemblerError::GOOD) {
-				std::cout << PrintUtils::appError << "Assembler failed with error " << PrintUtils::colorSchemeArg << "'" << error << "'" << PrintUtils::colorSchemeError << "!" << PrintUtils::normal << std::endl;
+				Logger::log(LogSeverity::Error, "Assembler failed with error {}'{}'{}", LogColors::Arg, error, LogColors::Error);
 				PrintUtils::restoreAnsi();
 				return EXIT_FAILURE;
 			}
 			FileUtils::writeLCO(outputName, lco);
 
 			if (argUtils.verbose)
-				std::cout << PrintUtils::appInfo << "Assembler succeeded" << PrintUtils::normal << std::endl;
+				Logger::log(LogSeverity::Info, "Assembler succeeded");
+#ifndef _NO_LINKER_
 		} else {
 			std::vector<LCO> lcos;
 			lcos.resize(inputNames.size());
 			for (size_t i = 0; i < inputNames.size(); i++) {
 				std::string fileContent;
 				FileUtils::readFile(inputNames[i], fileContent);
-				AssemblerError error = Assembler::assemble(assemblerOptions, fileContent, lcos[i]);
+				fileContent = "#line 0, " + inputNames[i] + "\n" + fileContent;
+
+				Assembler::AssemblerState assemblerState;
+				assemblerState.options.outputArch = argUtils.outputArch;
+				assemblerState.options.verbose    = argUtils.verbose;
+
+				AssemblerError error = Assembler::assemble(assemblerState, fileContent, lcos[i]);
 				if (error != AssemblerError::GOOD) {
-					std::cout << PrintUtils::appError << "Assembler failed with error " << PrintUtils::colorSchemeArg << "'" << error << "'" << PrintUtils::colorSchemeError << "!" << PrintUtils::normal << std::endl;
+					Logger::log(LogSeverity::Error, "Assembler failed with error {}'{}'{}", LogColors::Arg, error, LogColors::Error);
 					PrintUtils::restoreAnsi();
 					return EXIT_FAILURE;
 				}
 			}
 
 			if (argUtils.verbose)
-				std::cout << PrintUtils::appInfo << "Assembler succeeded" << PrintUtils::normal << std::endl;
+				Logger::log(LogSeverity::Info, "Assembler succeeded");
 
-			LinkerOptions linkerOptions;
-			linkerOptions.outputFormat = argUtils.outputFormat;
-			linkerOptions.verbose      = argUtils.verbose;
-			linkerOptions.inputFiles   = lcos;
+			Linker::LinkerState linkerState;
+			linkerState.options.outputFormat = argUtils.outputFormat;
+			linkerState.options.verbose      = argUtils.verbose;
+			linkerState.options.inputFiles   = lcos;
 			ByteBuffer bytecode;
-			LinkerError error = Linker::link(linkerOptions, bytecode);
+			LinkerError error = Linker::link(linkerState, bytecode);
 			if (error != LinkerError::GOOD) {
-				std::cout << PrintUtils::appError << "Linker failed with error " << PrintUtils::colorSchemeArg << "'" << error << "'" << PrintUtils::colorSchemeError << "!" << PrintUtils::normal << std::endl;
+				Logger::log(LogSeverity::Error, "Linker failed with error {}'{}'{}", LogColors::Arg, error, LogColors::Error);
 				return EXIT_FAILURE;
 			}
 			FileUtils::writeFileBinary(outputName, bytecode);
 
 			if (argUtils.verbose)
-				std::cout << PrintUtils::appInfo << "Linker succeeded" << PrintUtils::normal << std::endl;
+				Logger::log(LogSeverity::Info, "Linker succeeded");
 		}
 #endif
+#ifdef EXCEPTION_HANDLING
 	} catch (std::exception e) {
-		std::cout << PrintUtils::appError << "Exception in Assembler: " << e.what() << std::endl;
+		Logger::log(LogSeverity::Error, "Exception was thrown: {}", e.what());
 		PrintUtils::restoreAnsi();
 		return EXIT_FAILURE;
 	}
+#endif
 	PrintUtils::restoreAnsi();
 	return EXIT_SUCCESS;
 }
