@@ -564,21 +564,24 @@ void parse(std::string_view iniContent, Ini& outIni) {
 
 			std::string sectionName = printableToValue(sectionNameV);
 
-			if (sectionName[0] == '.') {
-				if (sectionName[1] == '.') {
+			if (sectionName[0] != '.')
+				currentIni = &outIni;
+
+			size_t sectionNameOffset = 0;
+			while (sectionNameOffset < sectionName.size()) {
+				size_t dot = sectionName.find_first_of('.', sectionNameOffset);
+				if (dot >= sectionName.size())
+					break;
+				size_t nextDot = sectionName.find_first_of('.', dot + 1);
+				if ((nextDot - dot) == 1) {
 					Ini* parent = currentIni->getParent();
 					if (parent)
 						currentIni = parent;
 				} else {
-					std::string fullSectionName = currentIni->getFullName();
-					if (fullSectionName.empty())
-						fullSectionName = sectionName.substr(1);
-					else
-						fullSectionName += sectionName;
-					currentIni = &outIni.addSection(fullSectionName)->getIni();
+					currentIni = &currentIni->addSection(sectionName.substr(sectionNameOffset, dot - sectionNameOffset))->getIni();
 				}
-			} else {
-				currentIni = &outIni.addSection(sectionName)->getIni();
+
+				sectionNameOffset = dot + 1;
 			}
 
 			i = iniContent.find_first_of('\n', i) + 1;
@@ -837,21 +840,28 @@ bool parseNoexcept(std::string_view iniContent, Ini& outIni) noexcept {
 
 			std::string sectionName = printableToValue(sectionNameV);
 
-			if (sectionName[0] == '.') {
-				if (sectionName[1] == '.') {
-					Ini* parent = currentIni->getParent();
-					if (parent)
-						currentIni = parent;
+			if (sectionName[0] != '.')
+				currentIni = &outIni;
+			else
+				sectionName = sectionName.substr(1);
+
+			size_t sectionNameOffset = 0;
+			while (sectionNameOffset < sectionName.size()) {
+				size_t dot = sectionName.find_first_of('.', sectionNameOffset);
+				if (dot >= sectionName.size()) {
+					currentIni        = &currentIni->addSection(sectionName.substr(sectionNameOffset, dot - sectionNameOffset))->getIni();
+					sectionNameOffset = dot;
 				} else {
-					std::string fullSectionName = currentIni->getFullName();
-					if (fullSectionName.empty())
-						fullSectionName = sectionName.substr(1);
-					else
-						fullSectionName += sectionName;
-					currentIni = &outIni.addSection(fullSectionName)->getIni();
+					size_t nextDot = sectionName.find_first_of('.', dot + 1);
+					if ((nextDot - dot) == 1) {
+						Ini* parent = currentIni->getParent();
+						if (parent)
+							currentIni = parent;
+					} else {
+						currentIni = &currentIni->addSection(sectionName.substr(sectionNameOffset, dot - sectionNameOffset))->getIni();
+					}
+					sectionNameOffset = dot + 1;
 				}
-			} else {
-				currentIni = &outIni.addSection(sectionName)->getIni();
 			}
 
 			i = iniContent.find_first_of('\n', i) + 1;
