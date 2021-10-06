@@ -23,12 +23,12 @@
 /gradlew
 /gradlew.bat
 /local.properties
-/Makefile
+Makefile
 *.Make
 
 premake5.exe
 premake5.bat
 premake5.sh
 
-/Output/
+/Bin/
 *.pdf

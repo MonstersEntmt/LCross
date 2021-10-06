@@ -125,7 +125,7 @@ workspace("LCross")
     filter("system:linux")
         defines({ "LCROSS_SYSTEM=LCROSS_SYSTEM_LINUX" })
     
-    filter("system:macos")
+    filter("system:macosx")
         defines({ "LCROSS_SYSTEM=LCROSS_SYSTEM_MACOS" })
     
     filter("toolset:msc")
@@ -246,10 +246,10 @@ workspace("LCross")
         objdir("%{wks.location}/Bin/Int-%{cfg.system}-%{cfg.buildcfg}-%{cfg.platform}/%{prj.name}/")
         debugdir("%{prj.location}/Run/")
         
-        links({ "Common", "LLinkLib" })
+        links({ "LLinkLib" })
         sysincludedirs({
-            "%{wks.location}/Libraries/Common/Public",
-            "%{wks.location}/Libraries/LLinkLib/Public"
+            "%{wks.location}/Libraries/Common/Public/",
+            "%{wks.location}/Libraries/LLinkLib/Public/"
         })
         
         includedirs({
@@ -266,16 +266,18 @@ workspace("LCross")
         objdir("%{wks.location}/Bin/Int-%{cfg.system}-%{cfg.buildcfg}-%{cfg.platform}/%{prj.name}/")
         debugdir("%{prj.location}/Run/")
         
-        links({ "Common", "LAsmLib" })
+        links({ "LAsmLib" })
         sysincludedirs({
-            "%{wks.location}/Libraries/Common/Public",
-            "%{wks.location}/Libraries/LAsmLib/Public"
+            "%{wks.location}/Libraries/Common/Public/",
+            "%{wks.location}/Libraries/LAsmLib/Public/"
         })
         
         includedirs({
             "%{prj.location}/Private/",
             "%{prj.location}/Public/"
         })
+        
+        files({ "%{prj.location}/**" })
         
     project("LCC")
         kind("ConsoleApp")
@@ -284,16 +286,18 @@ workspace("LCross")
         objdir("%{wks.location}/Bin/Int-%{cfg.system}-%{cfg.buildcfg}-%{cfg.platform}/%{prj.name}/")
         debugdir("%{prj.location}/Run/")
         
-        links({ "Common", "LCCLib" })
+        links({ "LCCLib" })
         sysincludedirs({
-            "%{wks.location}/Libraries/Common/Public",
-            "%{wks.location}/Libraries/LCCLib/Public"
+            "%{wks.location}/Libraries/Common/Public/",
+            "%{wks.location}/Libraries/LCCLib/Public/"
         })
         
         includedirs({
             "%{prj.location}/Private/",
             "%{prj.location}/Public/"
         })
+        
+        files({ "%{prj.location}/**" })
         
     project("LCPP")
         kind("ConsoleApp")
@@ -302,16 +306,18 @@ workspace("LCross")
         objdir("%{wks.location}/Bin/Int-%{cfg.system}-%{cfg.buildcfg}-%{cfg.platform}/%{prj.name}/")
         debugdir("%{prj.location}/Run/")
         
-        links({ "Common", "LCPPLib" })
+        links({ "LCPPLib" })
         sysincludedirs({
-            "%{wks.location}/Libraries/Common/Public",
-            "%{wks.location}/Libraries/LCPPLib/Public"
+            "%{wks.location}/Libraries/Common/Public/",
+            "%{wks.location}/Libraries/LCPPLib/Public/"
         })
         
         includedirs({
             "%{prj.location}/Private/",
             "%{prj.location}/Public/"
         })
+        
+        files({ "%{prj.location}/**" })
         
     project("LLC")
         kind("ConsoleApp")
@@ -320,13 +326,15 @@ workspace("LCross")
         objdir("%{wks.location}/Bin/Int-%{cfg.system}-%{cfg.buildcfg}-%{cfg.platform}/%{prj.name}/")
         debugdir("%{prj.location}/Run/")
         
-        links({ "Common", "LLCLib" })
+        links({ "LLCLib" })
         sysincludedirs({
-            "%{wks.location}/Libraries/Common/Public",
-            "%{wks.location}/Libraries/LLCLib/Public"
+            "%{wks.location}/Libraries/Common/Public/",
+            "%{wks.location}/Libraries/LLCLib/Public/"
         })
         
         includedirs({
             "%{prj.location}/Private/",
             "%{prj.location}/Public/"
         })
+        
+        files({ "%{prj.location}/**" })
