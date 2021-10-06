@@ -1,7 +1,7 @@
 #pragma once
 
-#include <LCross/Core.hpp>
 #include <LCross/Common/ByteBuffer.hpp>
+#include <LCross/Core.hpp>
 
 namespace LCross::LLink {
 	struct LinkerState {

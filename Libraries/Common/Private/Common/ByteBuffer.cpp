@@ -68,4 +68,4 @@ namespace LCross::Common {
 		}
 		return {};
 	}
-} // namespace LavaLib::Utility
+} // namespace LCross::Common

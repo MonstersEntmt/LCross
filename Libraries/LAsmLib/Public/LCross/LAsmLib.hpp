@@ -1,5 +1,6 @@
 #pragma once
 
+#include <LCross/Common/LCO.hpp>
 #include <LCross/Core.hpp>
 
 namespace LCross::LAsm {
@@ -10,5 +11,5 @@ namespace LCross::LAsm {
 		} options;
 	};
 
-	void assemble(AssemblerState& state /*, LCO& lco*/);
+	void assemble(AssemblerState& state, LCO::LCO& lco);
 } // namespace LCross::LAsm

@@ -16,6 +16,7 @@ namespace LCross::Common {
 		auto getOffset() const { return this->offset; }
 		void setOffset(std::size_t offset) { this->offset = offset; }
 		auto size() const { return this->bytes.size(); }
+		void resize(std::size_t newSize) { this->bytes.resize(newSize); }
 		auto data() { return this->bytes.data(); }
 		auto data() const { return this->bytes.data(); }
 
@@ -31,7 +32,7 @@ namespace LCross::Common {
 		std::int8_t getI1(std::size_t position) const { return static_cast<std::int8_t>(getUI1(position)); }
 		std::int16_t getI2(std::size_t position) const { return static_cast<std::int16_t>(getUI2(position)); }
 		std::int32_t getI4(std::size_t position) const { return static_cast<std::int32_t>(getUI4(position)); }
-		std::int64_t getI8(std::size_t position) const { static_cast<std::int64_t>(getUI8(position)); }
+		std::int64_t getI8(std::size_t position) const { return static_cast<std::int64_t>(getUI8(position)); }
 
 		std::size_t getUI1s(std::vector<std::uint8_t>& vec, std::size_t position, std::size_t length) const;
 		std::size_t getUI2s(std::vector<std::uint16_t>& vec, std::size_t position, std::size_t length) const;
@@ -264,4 +265,4 @@ namespace LCross::Common {
 		std::size_t offset = 0;
 		std::vector<std::uint8_t> bytes;
 	};
-} // namespace LavaLib::Utility
+} // namespace LCross::Common
