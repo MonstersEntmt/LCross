@@ -1,14 +1,14 @@
 #include "CCompiler/CCompiler.h"
 
-#include <Common/PrintUtils.h>
 #include <Common/FileUtils.h>
+#include <Common/PrintUtils.h>
 
 namespace PrintUtils {
 	std::ostream& appName(std::ostream& ostream) { return ostream << "LCC"; }
 	std::ostream& appVersionInfo(std::ostream& ostream) {
 		return ostream;
 	}
-}
+} // namespace PrintUtils
 
 int main(int argc, char** argv) {
 	try {
@@ -30,21 +30,21 @@ int main(int argc, char** argv) {
 			if (inputNames.size() > 1) {
 				std::cout << PrintUtils::appInfo << "Current input filenames are:" << PrintUtils::colorSchemeArg;
 				for (size_t i = 0; i < inputNames.size(); i++)
-					std::cout << std::endl << "    '" << inputNames[i] << "'";
+					std::cout << std::endl
+					          << "    '" << inputNames[i] << "'";
 				std::cout << PrintUtils::normal;
-			}
-			else {
+			} else {
 				std::cout << PrintUtils::appInfo << "Current input filename is " << PrintUtils::colorSchemeArg << "'" << inputNames[0] << "'" << PrintUtils::normal << std::endl;
 			}
 		}
 
-		auto& inputNames = argUtils.inputNames;
+		auto& inputNames              = argUtils.inputNames;
 		const std::string& outputName = argUtils.outputName;
 		FileUtils::deleteFile(outputName);
 
 		CCompilerOptions compilerOptions;
 		compilerOptions.outputArch = argUtils.outputArch;
-		compilerOptions.verbose = argUtils.verbose;
+		compilerOptions.verbose    = argUtils.verbose;
 
 #ifdef _NO_ASSEMBLER_
 		std::string fileContent;
@@ -63,8 +63,8 @@ int main(int argc, char** argv) {
 #else
 		AssemblerOptions assemblerOptions;
 		assemblerOptions.outputArch = argUtils.outputArch;
-		assemblerOptions.verbose = argUtils.verbose;
-#ifdef _NO_LINKER_
+		assemblerOptions.verbose    = argUtils.verbose;
+	#ifdef _NO_LINKER_
 		std::string fileContent;
 		FileUtils::readFile(inputNames[0], fileContent);
 		std::string assemblyContent;
@@ -89,7 +89,7 @@ int main(int argc, char** argv) {
 
 		if (argUtils.verbose)
 			std::cout << PrintUtils::appInfo << "Assembler succeeded" << PrintUtils::normal << std::endl;
-#else
+	#else
 		std::vector<std::string> assemblyFiles;
 		assemblyFiles.resize(inputNames.size());
 		for (size_t i = 0; i < inputNames.size(); i++) {
@@ -123,8 +123,8 @@ int main(int argc, char** argv) {
 
 		LinkerOptions linkerOptions;
 		linkerOptions.outputFormat = argUtils.outputFormat;
-		linkerOptions.verbose = argUtils.verbose;
-		linkerOptions.inputFiles = lcos;
+		linkerOptions.verbose      = argUtils.verbose;
+		linkerOptions.inputFiles   = lcos;
 		ByteBuffer bytecode;
 		LinkerError error = Linker::link(linkerOptions, bytecode);
 		if (error != LinkerError::GOOD) {
@@ -136,10 +136,9 @@ int main(int argc, char** argv) {
 
 		if (argUtils.verbose)
 			std::cout << PrintUtils::appInfo << "Linker succeeded" << PrintUtils::normal << std::endl;
+	#endif
 #endif
-#endif
-	}
-	catch (std::exception e) {
+	} catch (std::exception e) {
 		PrintUtils::restoreAnsi();
 		return EXIT_FAILURE;
 	}
