@@ -34,6 +34,7 @@ namespace LCross::Common {
 		std::int32_t getI4(std::size_t position) const { return static_cast<std::int32_t>(getUI4(position)); }
 		std::int64_t getI8(std::size_t position) const { return static_cast<std::int64_t>(getUI8(position)); }
 
+		std::size_t getUI1s(ByteBuffer& buf, std::size_t position, std::size_t length) const;
 		std::size_t getUI1s(std::vector<std::uint8_t>& vec, std::size_t position, std::size_t length) const;
 		std::size_t getUI2s(std::vector<std::uint16_t>& vec, std::size_t position, std::size_t length) const;
 		std::size_t getUI4s(std::vector<std::uint32_t>& vec, std::size_t position, std::size_t length) const;
@@ -69,6 +70,12 @@ namespace LCross::Common {
 		std::int16_t getI2() { return static_cast<std::int16_t>(getUI2()); }
 		std::int32_t getI4() { return static_cast<std::int32_t>(getUI4()); }
 		std::int64_t getI8() { return static_cast<std::int64_t>(getUI8()); }
+
+		std::size_t getUI1s(ByteBuffer& buf, std::size_t length) {
+			std::size_t read = getUI1s(buf, this->offset, length);
+			this->offset += read;
+			return read;
+		}
 
 		std::size_t getUI1s(std::vector<std::uint8_t>& vec, std::size_t length) {
 			std::size_t read = getUI1s(vec, this->offset, length);

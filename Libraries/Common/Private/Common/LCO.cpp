@@ -176,14 +176,14 @@ namespace LCross::Common::LCO {
 			uint64_t numSections = inBytes.getUI8();
 			uint64_t bytesOffset = inBytes.getOffset() + (numSections * 24) + 8;
 			uint64_t byteLength  = inBytes.getUI8(bytesOffset - 8);
-			inBytes.getUI1s(bytesOffset, byteLength, bytes);
+			inBytes.getUI1s(bytes, bytesOffset, byteLength);
 			lco.sections.resize(numSections);
 			for (size_t i = 0; i < numSections; i++) {
 				Section& sect   = lco.sections[i];
 				sect.name       = nameBytes.getString(inBytes.getUI8()); // Offset of name from start of Name Table
 				uint64_t offset = inBytes.getUI8();                      // Where in Bytes is this section starting
 				uint64_t length = inBytes.getUI8();                      // Length of this sections bytes
-				bytes.getUI1s(offset, length, sect.bytes);
+				bytes.getUI1s(sect.bytes, offset, length);
 			}
 			// End Section Table.
 		}

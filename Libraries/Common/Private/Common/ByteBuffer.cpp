@@ -15,6 +15,10 @@ namespace LCross::Common {
 		}
 	}
 
+	std::size_t ByteBuffer::getUI1s(ByteBuffer& buf, std::size_t position, std::size_t length) const {
+		return getUI1s(buf.bytes, position, length);
+	}
+
 	std::size_t ByteBuffer::getUI1s(std::vector<std::uint8_t>& vec, std::size_t position, std::size_t length) const {
 		if (position < this->bytes.size()) {
 			length = std::min(this->bytes.size() - position, length);
