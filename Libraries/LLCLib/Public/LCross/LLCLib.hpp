@@ -1,5 +1,6 @@
 #pragma once
 
+#include <LCross/Common/LClass.hpp>
 #include <LCross/Core.hpp>
 
 #include <string>
@@ -19,6 +20,6 @@ namespace LCross::LLC {
 		} options;
 	};
 
-	void assemble(AssemblerState& state /*, LClass lclass*/);
+	void assemble(AssemblerState& state, LClass& lclass);
 	void compile(CompilerState& state, std::string& assembly);
 } // namespace LCross::LLC
