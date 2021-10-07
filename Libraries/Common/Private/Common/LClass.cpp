@@ -26,17 +26,17 @@ namespace LCross::Common::LClass {
 		for (auto& field : lclass.m_Fields) {
 			stringToIndex.insert({ field.m_Id, 0 });
 			for (auto& attribute : field.m_Attributes)
-				stringToIndex.insert(attribute.m_Name);
+                stringToIndex.insert({attribute.m_Name, 0});
 		}
 
 		for (auto& method : lclass.m_Methods) {
 			stringToIndex.insert({ method.m_Id, 0 });
 			for (auto& attribute : method.m_Attributes)
-				stringToIndex.insert(attribute.m_Name);
+				stringToIndex.insert({attribute.m_Name, 0});
 		}
 
 		for (auto& attribute : lclass.m_Attributes)
-			stringToIndex.insert(attribute.m_Name);
+			stringToIndex.insert({attribute.m_Name, 0});
 
 		bytes.addUI2(stringToIndex.size() + classToIndex.size() + 1);
 		std::uint16_t currentIndex = 0;
@@ -67,7 +67,7 @@ namespace LCross::Common::LClass {
 		bytes.addUI2(static_cast<std::uint16_t>(lclass.m_Supers.size()));
 		for (auto& super : lclass.m_Supers) {
 			auto itr = classToIndex.find(super);
-			if (itr == clasToIndex.end())
+			if (itr == classToIndex.end())
 				throw std::runtime_error("Unexpected");
 			bytes.addUI2(itr->second);
 		}
@@ -140,7 +140,7 @@ namespace LCross::Common::LClass {
 
 	namespace V1 {
 		bool read(ByteBuffer& inBytes, LClass& lclass) {
-            
+            return true;
 		}
 	} // namespace V1
 } // namespace LCross::Common::LClass
