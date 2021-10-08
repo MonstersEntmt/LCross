@@ -82,7 +82,7 @@ namespace CommonCLI {
 				}
 
 			private:
-				std::size_t m_Major, m_Minor, m_Patch;
+				std::size_t m_Major = 0, m_Minor = 0, m_Patch = 0;
 				std::string m_Prefix;
 				std::string m_Suffix;
 			};
